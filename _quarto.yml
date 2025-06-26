@@ -1,0 +1,51 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Tutorial of IonPairFinder"
+  author: 
+    - name: "Zhiwei Zhou"
+      email: "zhouzw@stanford.edu"
+      affiliation: "Stanford University"
+  description: "A tutorial for IsoPairFinder"
+  date: "6/20/2025"
+  cover-image: logo_250612.png
+  favicon: logo_250612.png
+  site-url: https://github.com/DoddLab/IsoPairFinder
+  repo-url: https://github.com/hadley/r4ds/
+  chapters:
+    - index.qmd
+    - quick_start.qmd
+    - data_preparation.qmd
+    - isoPairFinder_running.qmd
+    - caseStudy.qmd
+    - references.qmd
+
+bibliography: references.bib  
+csl: nature.csl
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    code-link: true
+    author-meta: "Zhiwei Zhou"
+    callout-appearance: simple
+    collapse-level: 2
+    toc: true           # 启用目录
+    toc-depth: 3        # 目录显示到三级标题（###）
+    toc-expand: true  # 默认展开目录
+    toc-number-sections: true  # 目录中的章节编号
+    toc-show: true      # 显示目录
+    toc-title: "Table of Contents"  # 目录标题
+    toc-float: true     # 目录浮动显示
+    toc-float-position: left  # 目录浮动位置在左侧
+  pdf:
+    documentclass: scrreprt
+    toc: true
+    toc-depth: 3        # PDF 目录显示到四级标题（####）
+
+
+

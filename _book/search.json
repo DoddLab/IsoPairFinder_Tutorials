@@ -1,0 +1,255 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Tutorial of IonPairFinder",
+    "section": "",
+    "text": "Abstract\nIdentifying functional gene clusters in gut microbes is increasingly straightforward with advanced sequencing and gene manipulation techniques. However, pinpointing specific metabolic intermediates to fully understand their molecular mechanisms remains a significant challenge. While Stable Isotope Tracing (SIT) metabolomics holds promise for discovering new metabolites, the complex analysis of LC-MS data limits its utility in elucidating gene function and identifying these crucial intermediates. We developed IsoPairFinder to overcome this barrier. This novel tool provides the first end-to-end workflow for efficiently identifying potential intermediates from SIT metabolomics data, thus accelerating metabolic pathway elucidation in the gut microbiota. IsoPairFinder’s robust workflow includes: (1) detecting differential ion signals from gene mutations; (2) consolidating redundant LC-MS signals (isotopes, adducts, in-source fragments); and (3) pairing ¹²C/¹³C features to highlight potential intermediates. Designed for compatibility with various metabolomics data processing tools, IsoPairFinder empowers biologists to quickly identify candidate substrates for hypothesis validation, transforming complex SIT metabolomics data into actionable insights.\nThis website is the tutorial of the IsoPairFinder package. The source code is available at GitHub\nIf you have any questions, please contact Zhiwei Zhou PhD (Department of Pathology, Stanford University).",
+    "crumbs": [
+      "Abstract"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Quick Start",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quick Start</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "4  Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Summary</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "1. Smith, C. A., Want, E. J., O’Maille, G.,\nAbagyan, R. & Siuzdak, G. XCMS:\nProcessing Mass Spectrometry\nData for Metabolite Profiling\nUsing Nonlinear Peak\nAlignment, Matching, and\nIdentification. Analytical Chemistry\n78, 779–787 (2006).\n\n\n2. Kuhl, C., Tautenhahn, R., Böttcher, C., Larson,\nT. R. & Neumann, S. CAMERA:\nAn Integrated Strategy for\nCompound Spectra Extraction and\nAnnotation of Liquid\nChromatography/Mass Spectrometry\nData Sets. Analytical Chemistry\n84, 283–289 (2012).\n\n\n3. Tsugawa, H. et al. A lipidome atlas in\nMS-DIAL 4. Nature Biotechnology\n38, 1159–1163 (2020).\n\n\n4. Zhou, Z. et al. Metabolite annotation\nfrom knowns to unknowns through knowledge-guided multi-layer metabolic\nnetworking. Nature Communications 13, 6656\n(2022).\n\n\n5. Liu,\nY. et al. A widely distributed\ngene cluster compensates for uricase loss in hominids. Cell\n186, 3400–3413.e20 (2023).\n\n\n6. Schmid, R. et al. Integrative analysis\nof multimodal mass spectrometry data in MZmine 3.\nNature Biotechnology 41, 447–449 (2023).\n\n\n7. Liu,\nY. et al. Gut bacteria degrade\npurines via the 2,8-dioxopurine pathway. Nature\nMicrobiology Accepted, (2025).",
+    "crumbs": [
+      "References"
+    ]
+  },
+  {
+    "objectID": "quick_start.html",
+    "href": "quick_start.html",
+    "title": "1  Quick Start",
+    "section": "",
+    "text": "1.1 Installation\nTo install the IsoPairFinder package, you can use the following command in R:\n# intall public packages\nif (!require(devtools)){\n    install.packages(\"devtools\")\n}\n\nif (!require(BiocManager)){\n    install.packages(\"BiocManager\")\n}\n\n# Required packages\nrequired_pkgs &lt;- c(\"dplyr\",\"tidyr\",\"readr\", \"stringr\", \"tibble\", \"purrr\",\n\"ggplot2\", \"igraph\", \"pbapply\", \"Rdisop\", \"randomForest\", \"pryr\", \"magrittr\", \"rmarkdown\", \"caret\")\nBiocManager::install(required_pkgs)\ndevtools::install_github(\"ZhuMetLab/SpectraTools\")\ndevtools::install_github(\"tidymass/masstools\")\n\n# install.packages(\"IsoPairFinder\")\ndevtools::install_github(\"DoddLab/IsoPairFinder\")",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quick Start</span>"
+    ]
+  },
+  {
+    "objectID": "isoPairFinder_running.html",
+    "href": "isoPairFinder_running.html",
+    "title": "3  IsoPairFinder running",
+    "section": "",
+    "text": "3.1 Overview of the IsoPairFinder workflow\nGenerally, the IsoPairFinder processes the stable isotope tracing (STI) metabolomics data via 3 steps (Figure 3.1): (1) differential analysis; (2) recognition of adduct, neutral loss, and in-source fragment; (3) feature pairing between unlabeled and labeled data.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>IsoPairFinder running</span>"
+    ]
+  },
+  {
+    "objectID": "data_preparation.html",
+    "href": "data_preparation.html",
+    "title": "2  Data Preparation",
+    "section": "",
+    "text": "2.1 xcms\nThe IsoPairFinder is designed to analyze stable isotope tracing metabolomics data to identify the possible substrate candidates. Such a study design needs: (i) an unlabeled group: mutant vs. wild-type cultures, (ii) a labeled group: mutant vs. wild-type cultures.\nFor the input of IsoPairFinder, it needs two feature tables (“peak_table_C12.csv” and “peak_table_C13.csv”) for each group, and a table of sample information (“sample_info.csv”). In addition, the raw MS data files (in mzML or mzXML format) are needed and provided in the folders. The demo data can be downloaded here.\nGenerally, it needs several files (Figure 2.1):\nAll input data files can be exported by different metabolomics data processing tools, e.g. xcms1, MS-DIAL2, and MZmine3. Table 2.1 summarizes the links to demo data, processed data, and tutorials of different tools. We provided step-by-step instructions in the following parts. The raw data files were acquired from the UHPLC-Agilent 6545XT QTOF. The study design could be found in Chapter 4 and could be downloaded here.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation</span>"
+    ]
+  },
+  {
+    "objectID": "xcms.html",
+    "href": "xcms.html",
+    "title": "1  xcms",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>xcms</span>"
+    ]
+  },
+  {
+    "objectID": "msdial.html",
+    "href": "msdial.html",
+    "title": "2  MS-DIAL",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>MS-DIAL</span>"
+    ]
+  },
+  {
+    "objectID": "mzmine.html",
+    "href": "mzmine.html",
+    "title": "3  mzmine",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "Data Preparation",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>mzmine</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start.html#demo-data",
+    "href": "quick_start.html#demo-data",
+    "title": "1  Quick Start",
+    "section": "\n1.2 Demo data",
+    "text": "1.2 Demo data\nThe demo data belong to the uric acid catabolism pathway study1. Briefly, we cultured wild-type and mutant strains (hyuA mutant in the demo data) of C. sporogenes in the presence of either unlabeled uric acid or its [13C5]-labeled isotopolog (detailed study design can be found here).\nThe demo data can be downloaded here. The downloaded data contains below files (Figure 1.1). Please refer to Chapter 2 for the detailed requirements of the data format for the step-by-step data preparation (xcms - Section 2.1, msdial - Section 2.2, mzmine - Section 2.3).\n\n\n\n\n\nFigure 1.1: The screenshot of the demo data.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quick Start</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start.html#run-script",
+    "href": "quick_start.html#run-script",
+    "title": "1  Quick Start",
+    "section": "\n1.3 Run script",
+    "text": "1.3 Run script\nThe basic use of IsoPairFinder is simply running the R script as below:\n\n# run the IsoPairFinder workflow\nlibrary(tidyverse)\nlibrary(IsoPairFinder)\n\n# analysis of HyuA \nfind_intemidates(peak_table_unlabel = 'peak_table_C12.csv',\n                 peak_table_label = 'peak_table_C13.csv',\n                 sample_info = 'sample_info.xlsx',\n                 path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/',\n                 polarity = c('positive', 'negative'),\n                 control_group = c(\"WT\"),\n                 case_group = c('hyuA'),\n                 mz_tol = 10,\n                 rt_tol = 0.05,\n                 p_value_cutoff = 0.05,\n                 p_adjust = TRUE,\n                 fold_change_cutoff = 20,\n                 is_recognize_adducts = TRUE)\n\nPlease refer to Section 3.2 for the explains of parameters.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quick Start</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start.html#output",
+    "href": "quick_start.html#output",
+    "title": "1  Quick Start",
+    "section": "\n1.4 Output",
+    "text": "1.4 Output\nAfter running, a new folder “00_tracer_result” will be created. It contains several files, including “tracer_pair_result.xlsx” and several PDF files. In the tab of the XLSX file, we could find the identified ion pair results between the unlabeled and labeled groups (Figure 1.2). The detailed explanations of each file can be found in Section 3.3.\n\n\n\n\n\nFigure 1.2: Overview of results.\n\n\n\n\n\n\n1. \nLiu, Y. et al. A widely distributed gene cluster compensates for uricase loss in hominids. Cell 186, 3400–3413.e20 (2023).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quick Start</span>"
+    ]
+  },
+  {
+    "objectID": "data_preparation.html#xcms",
+    "href": "data_preparation.html#xcms",
+    "title": "\n2  Data Preparation\n",
+    "section": "",
+    "text": "2.1.1 Step 1: MS1 and MS2 data conversion\nThe raw data for the demo could be downloaded here. Convert raw MS1 data and MS2 data files to mzML format using ProteoWizard (version 3.0.23010, Link). Please follow the conversion settings (Figure 2.2).\n\n\n\n\n\nFigure 2.2: ProteoWizard conversion settings.\n\n\n\n2.1.2 Step 2. Peak picking using XCMS and isotope merging\nThe R package xcms (version 3.20.0) for peak detection and alignment, and the R package CAMERA (version 1.54.0) [ref] were used for isotope annotation. Note: The unlabeled group data and the labeled group data were processed separately.\n\n\nUnlabeled group data processing. The mzML files are placed in two folders named “WT” and “hyuA_12C” according to their groups. These data were further processed with the following script.\n\nLabeled group data processing. The mzML files are placed in two folders named “WT” and “hyuA_12C” according to their groups. These data were further processed with the following script.\n\n\n# Load required packages\nlibrary(xcms)\nlibrary(CAMERA)\n\n\n2.1.3 Step 3. Feature table modification\nThe xcms exported feature table could be quickly modified using the IsoPairFinder functions modify_xcms_table(). The sample_info table (Figure 2.1) is needed to define the samples and groups.\n\n# Load required packages\nlibrary(xcms)\nlibrary(CAMERA)\n\n\n2.1.4 Step 4. Organizing files\nPlease move the modified feature tables, the sample information table, the MS2 data files, and the raw data files to the designated location (Figure 2.1).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation</span>"
+    ]
+  },
+  {
+    "objectID": "data_preparation.html#ms-dial",
+    "href": "data_preparation.html#ms-dial",
+    "title": "\n2  Data Preparation\n",
+    "section": "\n2.2 MS-DIAL",
+    "text": "2.2 MS-DIAL\n\n2.2.1 Step 1: MS1 and MS2 data conversion\nThe raw data for the demo could be downloaded here. Convert raw MS1 data to ABF format using Analysis Base File Converter (version 1.3.8802, Figure 2.3).\n\n\n\n\n\nFigure 2.3: ABF conversion settings.\n\n\nConvert MS2 data files to mzML format using ProteoWizard (version 3.0.23010, Link). The parameters could be found in Figure 2.2.\n\n2.2.2 Step 2. Peak picking using MS-DIAL\nThe MS-DIAL (ver.4.9.221218) was used here. Select the appropriate parameters according to the experimental design (parameters used in the demo data are shown in Figure 2.4). Export the feature table containing “Raw data matrix (Area)”. Note: The unlabeled group data and the labeled group data were processed separately.\n\n\n\n\n\nFigure 2.4: MS-DIAL peak picking settings.\n\n\n\n2.2.3 Step 3. Feature table modification\nThe MS-DIAL exported feature table could be quickly modified using the IsoPairFinder functions modify_msdial_table(). The sample_info table (Figure 2.1) is needed to define the samples and groups.\n\n# Load required packages\nlibrary(IsoPairFinder)\n\n\n2.2.4 Step 4. Organizing files\nPlease move the modified feature tables, the sample information table, the MS2 data files, and the raw data files to the designated location (Figure 2.1).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation</span>"
+    ]
+  },
+  {
+    "objectID": "data_preparation.html#mzmine",
+    "href": "data_preparation.html#mzmine",
+    "title": "\n2  Data Preparation\n",
+    "section": "\n2.3 MZmine",
+    "text": "2.3 MZmine\n\n2.3.1 Step 1: MS1 and MS2 data conversion\nThe raw data for the demo could be downloaded here. Convert raw MS1 data and MS2 data files to mzML format using ProteoWizard (version 3.0.23010, Link; See Part 2.1).\n\n2.3.2 Step 2. Peak picking using MZmine\nThe MZmine (version 4.7.3) was used here. Import and load the default parameters (the “UHPLC-QTOF” was used here). The modified parameters used in the demo data are shown in Figure 2.5. Note: The unlabeled group data and the labeled group data were processed separately.\n\n\n\n\n\nFigure 2.5: MZmine peak picking settings.\n\n\nExport the feature table using MZmine:Feature list methods → Export feature list → Export CSV legacy MZmine2 (see Figure 2.6).\n\n\n\n\n\nFigure 2.6: MZmine feature table export settings.\n\n\n\n2.3.3 Step 3. Feature table modification\nThe exported feature table can be quickly modified using the IsoPairFinder function modify_mzmine_table(). The sample_info table (Figure 2.1) is needed to define the samples and groups.\n\n# Load required packages\nlibrary(IsoPairFinder)\n\n\n2.3.4 Step 4. Organizing files\nPlease move the modified feature tables, the sample information table, the MS2 data files, and the raw data files to the designated location (Figure 2.1).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation</span>"
+    ]
+  },
+  {
+    "objectID": "isoPairFinder_running.html#overview-of-the-isopairfinder-workflow",
+    "href": "isoPairFinder_running.html#overview-of-the-isopairfinder-workflow",
+    "title": "3  IsoPairFinder running",
+    "section": "",
+    "text": "Differential analysis: identifying the possible accumulated substrates by comparing mutant and control groups. The unlabeled data and labeled data were processed respectively.\n\nRecognition of adduct, neutral loss, and in-source fragments: The potential substrate ions that were identified in the unlabeled data were used to retrieve and merge the related features (e.g., adduct, neutral loss, and in-source fragments) to avoid false positives. The extracted ion chromatography (EIC) of ions was also retrieved and checked.\n\nFeature pairing between unlabeled and labeled data: The reserved substrate ions of unlabeled data were used for chemical formula prediction and further confirming it by searching for pairing substrate ions in the labeled data.\n\n\n\n\n\n\nFigure 3.1: Overview of the IsoPairFinder workflow.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>IsoPairFinder running</span>"
+    ]
+  },
+  {
+    "objectID": "isoPairFinder_running.html#running-isopairfinder-and-parameters",
+    "href": "isoPairFinder_running.html#running-isopairfinder-and-parameters",
+    "title": "\n3  IsoPairFinder running\n",
+    "section": "\n3.2 Running IsoPairFinder and Parameters",
+    "text": "3.2 Running IsoPairFinder and Parameters\nThe basic use of IsoPairFinder is simply running the R script as below:\n\n# run the IsoPairFinder workflow\nlibrary(tidyverse)\nlibrary(IsoPairFinder)\n# analysis of HyuA\nfind_intemidates(peak_table_unlabel = 'peak_table_C12.csv',\n                 peak_table_label = 'peak_table_C13.csv',\n                 sample_info = 'sample_info.xlsx',\n                 path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/',\n                 polarity = c('positive', 'negative'),\n                 control_group = c(\"WT\"),\n                 case_group = c('hyuA'),\n                 mz_tol = 10,\n                 rt_tol = 0.05,\n                 p_value_cutoff = 0.05,\n                 p_adjust = TRUE,\n                 fold_change_cutoff = 20,\n                 is_recognize_adducts = TRUE)\n\nThe find_intemidates function is the main function of the IsoPairFinder package, which runs the whole workflow to identify potential intermediates from stable isotope tracing metabolomics data.\nThe parameters are provided below:\n\npeak_table_unlabel: the feature table name of the unlabeled group. The default file name, “peak_table_C12.csv”. See the requirements in part 2.1.\npeak_table_label: the feature table name of the unlabeled group. The default, “peak_table_C13.csv”. See the requirements in part 2.1.\nsample_info: the sample information table. See the requirements in part 2.1.\npath: the working path.\npolarity: ionization polarity, “positive” or “negative”. Default: “positive”\ncontrol_group: the control group, e.g., “WT”. The group names should be included in the sample information table.\ncase_group: the case group, e.g., “hyuA”. The group names should be included in the sample information table.\nmz_tol: m/z tolerance (unit: ppm) for searching the intermediate ions. Default: 10 ppm\nrt_tol: retention time tolerance (unit: minute) for searching the intermediate ions. Default: 0.05 min\np_value_cutoff: the cutoff of p-value (t-test). Default: 0.05\np_adjust: whether to perform the multiple comparison correction (FDR adjustment). Default: TRUE\nfold_change_cutoff: the cutoff of fold-change (case vs. control). Default: 20\nis_recognize_adduct: whether to recognize and merge the isotopes, adducts, and in-source fragments. Default: TRUE",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>IsoPairFinder running</span>"
+    ]
+  },
+  {
+    "objectID": "isoPairFinder_running.html#output",
+    "href": "isoPairFinder_running.html#output",
+    "title": "\n3  IsoPairFinder running\n",
+    "section": "\n3.3 Output",
+    "text": "3.3 Output\nThe new folder “00_tracer_result” will be generated in the working directory (Figure 1.2), including “tracer_pair_result.xlsx” and several plots in PDF files. Specifically, these files are provided in the result folder:\n\n\ntracer_pair_result.xlsx: This file contains the results from differential analysis, recognized features, and identified substrate feature pairs. It has 4 sheets:\n\n\nraw_data_unlabeled: the differential analysis of the unlabeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.\n\nraw_data_labeled: the differential analysis of the labeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.\n\nrecognized_peak_unlabel: the table of recognized adducts, neutral loss, and in-source fragments (Figure 3.2). The method used here was followed from a previous publication [ref]. Some key column definitions:\n\nbase_peak: the base peaks that are used to recognize the adducts and in-source fragments.\nrelationship: the relationship with the base peak.\nnum_annotation: the number of features that belong to the same group.\ngroup_order: the feature group ID.\n\n\n\npaired_table: the table of possible substrate ion pairs identified. Each row represents one pair of substrate ions (Figure 3.2). Specifically,\n\nunlabeled_feature_id/mz/rt: the property (id, mz, rt) of substrate in the unlabeled group.\nlabled_feature_id/mz/rt: the property (id, mz, rt) of substrate in the labeled group\nmass_shift_label: the estimated carbon number\np_values/fold_changes/average_abundance: the statistics of differential analysis\n\n\n\n\n“volcano_plot_unlabeled.pdf” / “volcano_plot_labeled.pdf”: the volcano plots that show a significant accumulation between the case (mutant) and control groups.\n“isotope_pair_plot_overview.pdf”: the overview of the EIC mirror for identified substrate ion pairs.\n“isotope_pair_list.pdf”: the lists of EIC mirror plots for identified substrate ion pairs.\n“00_intermediate_data”: the intermediate data during processing. It was used for debugging.\n\n\n\n\n\n\nFigure 3.2: The screenshot of the tracer pair result table",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>IsoPairFinder running</span>"
+    ]
+  },
+  {
+    "objectID": "caseStudy.html",
+    "href": "caseStudy.html",
+    "title": "4  Case Study",
+    "section": "",
+    "text": "The loss of uricase during hominid evolution has predisposed humans to hyperuricemia and gout, conditions with high global prevalence. In previous work, we identified a uric acid (UA)-inducible gene cluster in Clostridium sporogenes that is required for converting uric acid to short-chain fatty acids (SCFAs)1. When these genes were disrupted, SCFA production was blocked, yet a substantial amount of uric acid was still consumed. This suggested the possibility that pathway intermediates accumulate in the mutants and could be identified by untargeted LC-MS.\nTo investigate this, we developed a stable isotope tracing (STI) metabolomic experiment to detect unknown metabolites produced from uric acid in the anaerobic mutant cultures2. Specifically, for the UA catabolism gene cluster, we curated the 6 mutant strains for each gene. We cultured wild-type and mutant strains of C. sporogenes in the presence of either unlabeled uric acid or its [13C5]-labeled isotopologue. Here, the study of the hyuA gene was used as an example (Figure 4.1).\n\n\n\n\n\n\nFigure 4.1: Study design of STI metabolomics for studying hyuA gene functions\n\n\n\nThe reasonable substrate candidates have a series of characteristics: (i) were elevated in mutant vs. wild-type cultures, (ii) increased in intensity over culture age, and (iii) contained retention-time matched isotopologs when mutants were cultured with [13C5]-labeled uric acid. We processed these STI metabolomics data using IsoPairFinder. Take the hyuA as an example, compared to 190 possible pairs in the unlabeled and labeled groups, IsoPairFinder could significantly narrow the candidate pairs to 7. The final 12C/13C feature pair could be further quickly determined, which further helps propose its possible structure (Figure 4.2).\n\n\n\n\n\n\nFigure 4.2: The identified 12C/13C feature pairs revealing the substrate of the hyuA gene.\n\n\n\n\n\n\n\n1. Liu, Y. et al. A widely distributed gene cluster compensates for uricase loss in hominids. Cell 186, 3400–3413.e20 (2023).\n\n\n2. Liu, Y. et al. Gut bacteria degrade purines via the 2,8-dioxopurine pathway. Nature Microbiology Accepted, (2025).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Case Study</span>"
+    ]
+  },
+  {
+    "objectID": "data_preparation.html#sec-xcms",
+    "href": "data_preparation.html#sec-xcms",
+    "title": "2  Data Preparation",
+    "section": "",
+    "text": "2.1.1 Step 1: MS1 and MS2 data conversion\nThe raw data for the demo could be downloaded here. Convert raw MS1 data and MS2 data files to mzML format using ProteoWizard (version 3.0.23010, Link). Please follow the conversion settings (Figure 2.2).\n\n\n\n\n\nFigure 2.2: ProteoWizard conversion settings.\n\n\n\n2.1.2 Step 2. Peak picking using XCMS and isotope merging\nThe R package xcms (version 3.20.0)1 for peak detection and alignment, and the R package CAMERA (version 1.54.0)4 were used for isotope annotation. Note: The unlabeled group data and the labeled group data were processed separately.\n\n\nUnlabeled group data processing. The mzML files are placed in two folders named “WT” and “hyuA_12C” according to their groups. These data were further processed with the following script.\n\nLabeled group data processing. The mzML files are placed in two folders named “WT” and “hyuA_12C” according to their groups. These data were further processed with the following script.\n\n\n# Load required packages\nlibrary(xcms)\nlibrary(CAMERA)\n\n\n2.1.3 Step 3. Feature table modification\nThe xcms exported feature table could be quickly modified using the IsoPairFinder functions modify_xcms_table(). The sample_info table (Figure 2.1) is needed to define the samples and groups.\n\n# Load required packages\nlibrary(xcms)\nlibrary(CAMERA)\n\n\n2.1.4 Step 4. Organizing files\nPlease move the modified feature tables, the sample information table, the MS2 data files, and the raw data files to the designated location (Figure 2.1).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation</span>"
+    ]
+  },
+  {
+    "objectID": "data_preparation.html#sec-msdial",
+    "href": "data_preparation.html#sec-msdial",
+    "title": "2  Data Preparation",
+    "section": "\n2.2 MS-DIAL",
+    "text": "2.2 MS-DIAL\n\n2.2.1 Step 1: MS1 and MS2 data conversion\nThe raw data for the demo could be downloaded here. Convert raw MS1 data to ABF format using Analysis Base File Converter (version 1.3.8802, Figure 2.3).\n\n\n\n\n\nFigure 2.3: ABF conversion settings.\n\n\nConvert MS2 data files to mzML format using ProteoWizard (version 3.0.23010, Link). The parameters could be found in Figure 2.2.\n\n2.2.2 Step 2. Peak picking using MS-DIAL\nThe MS-DIAL (ver.4.9.221218) was used here. Select the appropriate parameters according to the experimental design (parameters used in the demo data are shown in Figure 2.4). Export the feature table containing “Raw data matrix (Area)”. Note: The unlabeled group data and the labeled group data were processed separately.\n\n\n\n\n\nFigure 2.4: MS-DIAL peak picking settings.\n\n\n\n2.2.3 Step 3. Feature table modification\nThe MS-DIAL exported feature table could be quickly modified using the IsoPairFinder functions modify_msdial_table(). The sample_info table (Figure 2.1) is needed to define the samples and groups.\n\n# Load required packages\nlibrary(IsoPairFinder)\n\n\n2.2.4 Step 4. Organizing files\nPlease move the modified feature tables, the sample information table, the MS2 data files, and the raw data files to the designated location (Figure 2.1).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation</span>"
+    ]
+  },
+  {
+    "objectID": "data_preparation.html#sec-mzmine",
+    "href": "data_preparation.html#sec-mzmine",
+    "title": "2  Data Preparation",
+    "section": "\n2.3 MZmine",
+    "text": "2.3 MZmine\n\n2.3.1 Step 1: MS1 and MS2 data conversion\nThe raw data for the demo could be downloaded here. Convert raw MS1 data and MS2 data files to mzML format using ProteoWizard (version 3.0.23010, Link; See Section 2.1.1).\n\n2.3.2 Step 2. Peak picking using MZmine\nThe MZmine (version 4.7.3) was used here. Import and load the default parameters (the “UHPLC-QTOF” was used here). The modified parameters used in the demo data are shown in Figure 2.5. Note: The unlabeled group data and the labeled group data were processed separately.\n\n\n\n\n\nFigure 2.5: MZmine peak picking settings.\n\n\nExport the feature table using MZmine:Feature list methods → Export feature list → Export CSV legacy MZmine2 (see Figure 2.6).\n\n\n\n\n\nFigure 2.6: MZmine feature table export settings.\n\n\n\n2.3.3 Step 3. Feature table modification\nThe exported feature table can be quickly modified using the IsoPairFinder function modify_mzmine_table(). The sample_info table (Figure 2.1) is needed to define the samples and groups.\n\n# Load required packages\nlibrary(IsoPairFinder)\n\n\n2.3.4 Step 4. Organizing files\nPlease move the modified feature tables, the sample information table, the MS2 data files, and the raw data files to the designated location (Figure 2.1).\n\n\n\n\n1. \nSmith, C. A., Want, E. J., O’Maille, G., Abagyan, R. & Siuzdak, G. XCMS: Processing Mass Spectrometry Data for Metabolite Profiling Using Nonlinear Peak Alignment, Matching, and Identification. Analytical Chemistry 78, 779–787 (2006).\n\n\n2. \nTsugawa, H. et al. A lipidome atlas in MS-DIAL 4. Nature Biotechnology 38, 1159–1163 (2020).\n\n\n3. \nSchmid, R. et al. Integrative analysis of multimodal mass spectrometry data in MZmine 3. Nature Biotechnology 41, 447–449 (2023).\n\n\n4. \nKuhl, C., Tautenhahn, R., Böttcher, C., Larson, T. R. & Neumann, S. CAMERA: An Integrated Strategy for Compound Spectra Extraction and Annotation of Liquid Chromatography/Mass Spectrometry Data Sets. Analytical Chemistry 84, 283–289 (2012).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation</span>"
+    ]
+  },
+  {
+    "objectID": "isoPairFinder_running.html#sec-isoPairFinder-parameters",
+    "href": "isoPairFinder_running.html#sec-isoPairFinder-parameters",
+    "title": "3  IsoPairFinder running",
+    "section": "\n3.2 Running IsoPairFinder and Parameters",
+    "text": "3.2 Running IsoPairFinder and Parameters\nThe basic use of IsoPairFinder is simply running the R script as below:\n\n# run the IsoPairFinder workflow\nlibrary(tidyverse)\nlibrary(IsoPairFinder)\n# analysis of HyuA\nfind_intemidates(peak_table_unlabel = 'peak_table_C12.csv',\n                 peak_table_label = 'peak_table_C13.csv',\n                 sample_info = 'sample_info.xlsx',\n                 path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/',\n                 polarity = c('positive', 'negative'),\n                 control_group = c(\"WT\"),\n                 case_group = c('hyuA'),\n                 mz_tol = 10,\n                 rt_tol = 0.05,\n                 p_value_cutoff = 0.05,\n                 p_adjust = TRUE,\n                 fold_change_cutoff = 20,\n                 is_recognize_adducts = TRUE)\n\nThe find_intemidates function is the main function of the IsoPairFinder package, which runs the whole workflow to identify potential intermediates from stable isotope tracing metabolomics data.\nThe parameters are provided below:\n\npeak_table_unlabel: the feature table name of the unlabeled group. The default file name, “peak_table_C12.csv”. See the requirements in Chapter 2.\npeak_table_label: the feature table name of the unlabeled group. The default, “peak_table_C13.csv”. See the requirements in Chapter 2.\nsample_info: the sample information table. See the requirements in Chapter 2.\npath: the working path.\npolarity: ionization polarity, “positive” or “negative”. Default: “positive”\ncontrol_group: the control group, e.g., “WT”. The group names should be included in the sample information table.\ncase_group: the case group, e.g., “hyuA”. The group names should be included in the sample information table.\nmz_tol: m/z tolerance (unit: ppm) for searching the intermediate ions. Default: 10 ppm\nrt_tol: retention time tolerance (unit: minute) for searching the intermediate ions. Default: 0.05 min\np_value_cutoff: the cutoff of p-value (t-test). Default: 0.05\np_adjust: whether to perform the multiple comparison correction (FDR adjustment). Default: TRUE\nfold_change_cutoff: the cutoff of fold-change (case vs. control). Default: 20\nis_recognize_adduct: whether to recognize and merge the isotopes, adducts, and in-source fragments. Default: TRUE",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>IsoPairFinder running</span>"
+    ]
+  },
+  {
+    "objectID": "isoPairFinder_running.html#sec-isoPairFinder-output",
+    "href": "isoPairFinder_running.html#sec-isoPairFinder-output",
+    "title": "3  IsoPairFinder running",
+    "section": "\n3.3 Output",
+    "text": "3.3 Output\nThe new folder “00_tracer_result” will be generated in the working directory (Figure 1.2), including “tracer_pair_result.xlsx” and several plots in PDF files. Specifically, these files are provided in the result folder:\n\n\ntracer_pair_result.xlsx: This file contains the results from differential analysis, recognized features, and identified substrate feature pairs. It has 4 sheets:\n\n\nraw_data_unlabeled: the differential analysis of the unlabeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.\n\nraw_data_labeled: the differential analysis of the labeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.\n\nrecognized_peak_unlabel: the table of recognized adducts, neutral loss, and in-source fragments (Figure 3.2). The method used here was followed from a previous publication1. Some key column definitions:\n\nbase_peak: the base peaks that are used to recognize the adducts and in-source fragments.\nrelationship: the relationship with the base peak.\nnum_annotation: the number of features that belong to the same group.\ngroup_order: the feature group ID.\n\n\n\npaired_table: the table of possible substrate ion pairs identified. Each row represents one pair of substrate ions (Figure 3.2). Specifically,\n\nunlabeled_feature_id/mz/rt: the property (id, mz, rt) of substrate in the unlabeled group.\nlabled_feature_id/mz/rt: the property (id, mz, rt) of substrate in the labeled group\nmass_shift_label: the estimated carbon number\np_values/fold_changes/average_abundance: the statistics of differential analysis\n\n\n\n\n“volcano_plot_unlabeled.pdf” / “volcano_plot_labeled.pdf”: the volcano plots that show a significant accumulation between the case (mutant) and control groups.\n“isotope_pair_plot_overview.pdf”: the overview of the EIC mirror for identified substrate ion pairs.\n“isotope_pair_list.pdf”: the lists of EIC mirror plots for identified substrate ion pairs.\n“00_intermediate_data”: the intermediate data during processing. It was used for debugging.\n\n\n\n\n\n\nFigure 3.2: The screenshot of the tracer pair result table\n\n\n\n\n\n\n1. \nZhou, Z. et al. Metabolite annotation from knowns to unknowns through knowledge-guided multi-layer metabolic networking. Nature Communications 13, 6656 (2022).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>IsoPairFinder running</span>"
+    ]
+  }
+]

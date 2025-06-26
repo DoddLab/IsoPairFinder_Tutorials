@@ -1,0 +1,7 @@
+# Abstract {.unnumbered}
+
+Identifying functional gene clusters in gut microbes is increasingly straightforward with advanced sequencing and gene manipulation techniques. However, pinpointing specific metabolic intermediates to fully understand their molecular mechanisms remains a significant challenge. While Stable Isotope Tracing (SIT) metabolomics holds promise for discovering new metabolites, the complex analysis of LC-MS data limits its utility in elucidating gene function and identifying these crucial intermediates. We developed **IsoPairFinder** to overcome this barrier. This novel tool provides the first end-to-end workflow for efficiently identifying potential intermediates from SIT metabolomics data, thus accelerating metabolic pathway elucidation in the gut microbiota. IsoPairFinder's robust workflow includes: (1) detecting differential ion signals from gene mutations; (2) consolidating redundant LC-MS signals (isotopes, adducts, in-source fragments); and (3) pairing ¹²C/¹³C features to highlight potential intermediates. Designed for compatibility with various metabolomics data processing tools, IsoPairFinder empowers biologists to quickly identify candidate substrates for hypothesis validation, transforming complex SIT metabolomics data into actionable insights.
+
+This website is the tutorial of the **IsoPairFinder** package. The source code is available at [GitHub](https://github.com/DoddLab/IsoPairFinder)
+
+If you have any questions, please contact **Zhiwei Zhou** PhD (Department of Pathology, Stanford University).
