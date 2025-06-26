@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Zhiwei Zhou">
 <meta name="description" content="A tutorial for IsoPairFinder">
-<title>2&nbsp; Data Preparation – Tutorial of IonPairFinder</title>
+<title>2&nbsp; Data Preparation – Tutorial of IsoPairFinder</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -141,9 +141,9 @@ div.csl-indent {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Tutorial of IonPairFinder</a> 
+      <a href="./">Tutorial of IsoPairFinder</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/hadley/r4ds/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/DoddLab/IsoPairFinder_Tutorials" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -377,15 +377,64 @@ Figure&nbsp;2.2: ProteoWizard conversion settings.
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sneumann/xcms">xcms</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://msbi.ipb-halle.de/msbi/CAMERA/">CAMERA</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://msbi.ipb-halle.de/msbi/CAMERA/">CAMERA</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># set the working path</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># DoddLabRawMS is a package which utilized xcms to process the raw data</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'DoddLab/DoddLabRawMS'</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># load required packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sneumann/xcms">xcms</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://msbi.ipb-halle.de/msbi/CAMERA/">CAMERA</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">DoddLabRawMS</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># run raw data processing - 12C - unlabeled group</span></span>
+<span><span class="co"># load parameter set</span></span>
+<span><span class="va">parameter_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DoddLabRawMS/man/initialize_raw_parameter_class.html">initialize_raw_parameter_class</a></span><span class="op">(</span>column <span class="op">=</span> <span class="st">'hilic'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/DoddLabRawMS/man/process_raw_data.html">process_raw_data</a></span><span class="op">(</span>parameter_set <span class="op">=</span> <span class="va">parameter_set</span>, </span>
+<span>                 path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/'</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># run CAMERA to annotate the isotopes</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/00_intermediate_data/xset3.RData'</span><span class="op">)</span></span>
+<span><span class="va">path</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/'</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/DoddLabRawMS/man/runCAMERA.html">runCAMERA</a></span><span class="op">(</span>xset <span class="op">=</span> <span class="va">xset3</span>,</span>
+<span>          path <span class="op">=</span> <span class="va">path</span>,</span>
+<span>          polarity <span class="op">=</span> <span class="st">'positive'</span>,</span>
+<span>          nSlaves <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>          pg_sigma <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>          pg_perfwhm <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>          iso_maxcharge <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>          iso_maxiso <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>          iso_ppm <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>          iso_mzabs <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>          iso_minfrac <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>          is_vali_pg_cor <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>          pg_cor_eic_th <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>          pg_cor_calcIso <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>          gp_cor_calcCis <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>          gp_cor_calcCaS <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>          gp_cor_cor_exp_th <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>          is_use_modified_rule <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>          adduct_ppm <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>          adduct_mzabs <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-3.-feature-table-modification" class="level3" data-number="2.1.3"><h3 data-number="2.1.3" class="anchored" data-anchor-id="step-3.-feature-table-modification">
 <span class="header-section-number">2.1.3</span> Step 3. Feature table modification</h3>
 <p>The xcms exported feature table could be quickly modified using the IsoPairFinder functions <code><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_xcms_table.html">modify_xcms_table()</a></code>. The sample_info table (<a href="#fig-figure2-1" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure2-1</span></a>) is needed to define the samples and groups.</p>
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load required packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sneumann/xcms">xcms</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://msbi.ipb-halle.de/msbi/CAMERA/">CAMERA</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_xcms_table.html">modify_xcms_table</a></span><span class="op">(</span>table_xcms <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/Peak-table.csv'</span>,</span>
+<span>                  table_camera <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/adduct_result_camera.xlsx'</span>,</span>
+<span>                  table_sample_info <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/sample_info.xlsx'</span>,</span>
+<span>                  path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C'</span>,</span>
+<span>                  file_output <span class="op">=</span> <span class="st">'peak_table_C12.csv'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-4.-organizing-files" class="level3" data-number="2.1.4"><h3 data-number="2.1.4" class="anchored" data-anchor-id="step-4.-organizing-files">
 <span class="header-section-number">2.1.4</span> Step 4. Organizing files</h3>
@@ -420,8 +469,14 @@ Figure&nbsp;2.4: MS-DIAL peak picking settings.
 <span class="header-section-number">2.2.3</span> Step 3. Feature table modification</h3>
 <p>The MS-DIAL exported feature table could be quickly modified using the IsoPairFinder functions <code><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_msdial_table.html">modify_msdial_table()</a></code>. The sample_info table (<a href="#fig-figure2-1" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure2-1</span></a>) is needed to define the samples and groups.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load required packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span>
+<span><span class="va">table_msdial</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/hyuA_UA_48h_area.txt'</span></span>
+<span><span class="va">table_sample_info</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/sample_info.xlsx'</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_msdial_table.html">modify_msdial_table</a></span><span class="op">(</span>table_msdial <span class="op">=</span> <span class="va">table_msdial</span>,</span>
+<span>                    table_sample_info <span class="op">=</span> <span class="va">table_sample_info</span>,</span>
+<span>                    path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial'</span>,</span>
+<span>                    file_output <span class="op">=</span> <span class="st">'peak_table_C12.csv'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-4.-organizing-files-1" class="level3" data-number="2.2.4"><h3 data-number="2.2.4" class="anchored" data-anchor-id="step-4.-organizing-files-1">
 <span class="header-section-number">2.2.4</span> Step 4. Organizing files</h3>
@@ -457,7 +512,13 @@ Figure&nbsp;2.6: MZmine feature table export settings.
 <p>The exported feature table can be quickly modified using the IsoPairFinder function <code><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_mzmine_table.html">modify_mzmine_table()</a></code>. The sample_info table (<a href="#fig-figure2-1" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure2-1</span></a>) is needed to define the samples and groups.</p>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load required packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span>
+<span><span class="va">table_mzmine</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine/mzmine_12C.csv'</span></span>
+<span><span class="va">table_sample_info</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine/sample_info.xlsx'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_mzmine_table.html">modify_mzmine_table</a></span><span class="op">(</span>table_mzmine <span class="op">=</span> <span class="va">table_mzmine</span>,</span>
+<span>                    table_sample_info <span class="op">=</span> <span class="va">table_sample_info</span>,</span>
+<span>                    path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine'</span>,</span>
+<span>                    file_output <span class="op">=</span> <span class="st">'peak_table_C12.csv'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-4.-organizing-files-2" class="level3" data-number="2.3.4"><h3 data-number="2.3.4" class="anchored" data-anchor-id="step-4.-organizing-files-2">
 <span class="header-section-number">2.3.4</span> Step 4. Organizing files</h3>
@@ -554,7 +615,7 @@ Figure&nbsp;2.6: MZmine feature table export settings.
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/github\.com\/DoddLab\/IsoPairFinder");
+        var filterRegex = new RegExp("https:\/\/doddlab\.github\.io\/IsoPairFinder_Tutorials\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

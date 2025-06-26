@@ -228,7 +228,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Tutorial of IonPairFinder},
+  pdftitle={Tutorial of IsoPairFinder},
   pdfauthor={Zhiwei Zhou},
   colorlinks=true,
   linkcolor={blue},
@@ -238,7 +238,7 @@
   pdfcreator={LaTeX via pandoc}}
 
 
-\title{Tutorial of IonPairFinder}
+\title{Tutorial of IsoPairFinder}
 \author{Zhiwei Zhou}
 \date{2025-06-20}
 \begin{document}
@@ -642,6 +642,51 @@ processed separately.}
 \CommentTok{\# Load required packages}
 \FunctionTok{library}\NormalTok{(xcms)}
 \FunctionTok{library}\NormalTok{(CAMERA)}
+
+\CommentTok{\# set the working path}
+\FunctionTok{setwd}\NormalTok{(}\StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# DoddLabRawMS is a package which utilized xcms to process the raw data}
+\NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{\textquotesingle{}DoddLab/DoddLabRawMS\textquotesingle{}}\NormalTok{, }\AttributeTok{force =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# load required packages}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(xcms)}
+\FunctionTok{library}\NormalTok{(CAMERA)}
+\FunctionTok{library}\NormalTok{(DoddLabRawMS)}
+
+\CommentTok{\# run raw data processing {-} 12C {-} unlabeled group}
+\CommentTok{\# load parameter set}
+\NormalTok{parameter\_set }\OtherTok{\textless{}{-}} \FunctionTok{initialize\_raw\_parameter\_class}\NormalTok{(}\AttributeTok{column =} \StringTok{\textquotesingle{}hilic\textquotesingle{}}\NormalTok{)}
+
+\FunctionTok{process\_raw\_data}\NormalTok{(}\AttributeTok{parameter\_set =}\NormalTok{ parameter\_set, }
+                 \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/\textquotesingle{}}\NormalTok{)}
+
+
+\CommentTok{\# run CAMERA to annotate the isotopes}
+\FunctionTok{load}\NormalTok{(}\StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/00\_raw\_data\_processing/00\_intermediate\_data/xset3.RData\textquotesingle{}}\NormalTok{)}
+\NormalTok{path }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/\textquotesingle{}}
+
+\FunctionTok{runCAMERA}\NormalTok{(}\AttributeTok{xset =}\NormalTok{ xset3,}
+          \AttributeTok{path =}\NormalTok{ path,}
+          \AttributeTok{polarity =} \StringTok{\textquotesingle{}positive\textquotesingle{}}\NormalTok{,}
+          \AttributeTok{nSlaves =} \DecValTok{6}\NormalTok{,}
+          \AttributeTok{pg\_sigma =} \DecValTok{6}\NormalTok{,}
+          \AttributeTok{pg\_perfwhm =} \FloatTok{0.6}\NormalTok{,}
+          \AttributeTok{iso\_maxcharge =} \DecValTok{2}\NormalTok{,}
+          \AttributeTok{iso\_maxiso =} \DecValTok{4}\NormalTok{,}
+          \AttributeTok{iso\_ppm =} \DecValTok{25}\NormalTok{,}
+          \AttributeTok{iso\_mzabs =} \FloatTok{0.01}\NormalTok{,}
+          \AttributeTok{iso\_minfrac =} \FloatTok{0.5}\NormalTok{,}
+          \AttributeTok{is\_vali\_pg\_cor =} \ConstantTok{FALSE}\NormalTok{,}
+          \AttributeTok{pg\_cor\_eic\_th =} \FloatTok{0.7}\NormalTok{,}
+          \AttributeTok{pg\_cor\_calcIso =} \ConstantTok{FALSE}\NormalTok{,}
+          \AttributeTok{gp\_cor\_calcCis =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{gp\_cor\_calcCaS =} \ConstantTok{FALSE}\NormalTok{,}
+          \AttributeTok{gp\_cor\_cor\_exp\_th =} \FloatTok{0.75}\NormalTok{,}
+          \AttributeTok{is\_use\_modified\_rule =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{adduct\_ppm =} \DecValTok{25}\NormalTok{,}
+          \AttributeTok{adduct\_mzabs =} \FloatTok{0.01}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -656,8 +701,12 @@ groups.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Load required packages}
-\FunctionTok{library}\NormalTok{(xcms)}
-\FunctionTok{library}\NormalTok{(CAMERA)}
+\FunctionTok{library}\NormalTok{(IsoPairFinder)}
+\FunctionTok{modify\_xcms\_table}\NormalTok{(}\AttributeTok{table\_xcms =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/00\_raw\_data\_processing/Peak{-}table.csv\textquotesingle{}}\NormalTok{,}
+                  \AttributeTok{table\_camera =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/00\_raw\_data\_processing/adduct\_result\_camera.xlsx\textquotesingle{}}\NormalTok{,}
+                  \AttributeTok{table\_sample\_info =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/sample\_info.xlsx\textquotesingle{}}\NormalTok{,}
+                  \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C\textquotesingle{}}\NormalTok{,}
+                  \AttributeTok{file\_output =} \StringTok{\textquotesingle{}peak\_table\_C12.csv\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -726,8 +775,14 @@ samples and groups.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Load required packages}
 \FunctionTok{library}\NormalTok{(IsoPairFinder)}
+\NormalTok{table\_msdial }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial/hyuA\_UA\_48h\_area.txt\textquotesingle{}}
+\NormalTok{table\_sample\_info }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial/sample\_info.xlsx\textquotesingle{}}
+
+\FunctionTok{modify\_msdial\_table}\NormalTok{(}\AttributeTok{table\_msdial =}\NormalTok{ table\_msdial,}
+                    \AttributeTok{table\_sample\_info =}\NormalTok{ table\_sample\_info,}
+                    \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial\textquotesingle{}}\NormalTok{,}
+                    \AttributeTok{file\_output =} \StringTok{\textquotesingle{}peak\_table\_C12.csv\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -798,6 +853,12 @@ samples and groups.
 \begin{Highlighting}[]
 \CommentTok{\# Load required packages}
 \FunctionTok{library}\NormalTok{(IsoPairFinder)}
+\NormalTok{table\_mzmine }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_mzmine/mzmine\_12C.csv\textquotesingle{}}
+\NormalTok{table\_sample\_info }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_mzmine/sample\_info.xlsx\textquotesingle{}}
+\FunctionTok{modify\_mzmine\_table}\NormalTok{(}\AttributeTok{table\_mzmine =}\NormalTok{ table\_mzmine,}
+                    \AttributeTok{table\_sample\_info =}\NormalTok{ table\_sample\_info,}
+                    \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_mzmine\textquotesingle{}}\NormalTok{,}
+                    \AttributeTok{file\_output =} \StringTok{\textquotesingle{}peak\_table\_C12.csv\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 

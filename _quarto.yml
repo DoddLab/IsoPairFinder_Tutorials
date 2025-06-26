@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: "Tutorial of IonPairFinder"
+  title: "Tutorial of IsoPairFinder"
   author: 
     - name: "Zhiwei Zhou"
       email: "zhouzw@stanford.edu"
@@ -12,8 +12,8 @@ book:
   date: "6/20/2025"
   cover-image: logo_250612.png
   favicon: logo_250612.png
-  site-url: https://github.com/DoddLab/IsoPairFinder
-  repo-url: https://github.com/hadley/r4ds/
+  site-url: https://doddlab.github.io/IsoPairFinder_Tutorials/
+  repo-url: https://github.com/DoddLab/IsoPairFinder_Tutorials
   chapters:
     - index.qmd
     - quick_start.qmd

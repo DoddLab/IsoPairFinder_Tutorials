@@ -64,6 +64,51 @@ The R package `xcms` (version 3.20.0) @smith_xcms_2006 for peak detection and al
 # Load required packages
 library(xcms)
 library(CAMERA)
+
+# set the working path
+setwd('~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/')
+
+# DoddLabRawMS is a package which utilized xcms to process the raw data
+devtools::install_github('DoddLab/DoddLabRawMS', force = TRUE)
+
+# load required packages
+library(tidyverse)
+library(xcms)
+library(CAMERA)
+library(DoddLabRawMS)
+
+# run raw data processing - 12C - unlabeled group
+# load parameter set
+parameter_set <- initialize_raw_parameter_class(column = 'hilic')
+
+process_raw_data(parameter_set = parameter_set, 
+                 path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/')
+
+
+# run CAMERA to annotate the isotopes
+load('~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/00_intermediate_data/xset3.RData')
+path <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/'
+
+runCAMERA(xset = xset3,
+          path = path,
+          polarity = 'positive',
+          nSlaves = 6,
+          pg_sigma = 6,
+          pg_perfwhm = 0.6,
+          iso_maxcharge = 2,
+          iso_maxiso = 4,
+          iso_ppm = 25,
+          iso_mzabs = 0.01,
+          iso_minfrac = 0.5,
+          is_vali_pg_cor = FALSE,
+          pg_cor_eic_th = 0.7,
+          pg_cor_calcIso = FALSE,
+          gp_cor_calcCis = TRUE,
+          gp_cor_calcCaS = FALSE,
+          gp_cor_cor_exp_th = 0.75,
+          is_use_modified_rule = TRUE,
+          adduct_ppm = 25,
+          adduct_mzabs = 0.01)
 ```
 
 ### Step 3. Feature table modification
@@ -71,8 +116,13 @@ The xcms exported feature table could be quickly modified using the IsoPairFinde
 
 ```{r, eval=FALSE}
 # Load required packages
-library(xcms)
-library(CAMERA)
+library(IsoPairFinder)
+modify_xcms_table(table_xcms = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/Peak-table.csv',
+                  table_camera = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/adduct_result_camera.xlsx',
+                  table_sample_info = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/sample_info.xlsx',
+                  path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C',
+                  file_output = 'peak_table_C12.csv')
+
 ```
 
 ### Step 4. Organizing files 
@@ -98,8 +148,16 @@ The `MS-DIAL` (ver.4.9.221218) was used here. Select the appropriate parameters 
 The MS-DIAL exported feature table could be quickly modified using the IsoPairFinder functions `modify_msdial_table()`. The sample_info table (@fig-figure2-1) is needed to define the samples and groups.
 
 ```{r, eval=FALSE}
-# Load required packages
+
 library(IsoPairFinder)
+table_msdial <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/hyuA_UA_48h_area.txt'
+table_sample_info <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/sample_info.xlsx'
+
+modify_msdial_table(table_msdial = table_msdial,
+                    table_sample_info = table_sample_info,
+                    path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial',
+                    file_output = 'peak_table_C12.csv')
+
 ```
 
 ### Step 4. Organizing files
@@ -129,6 +187,12 @@ The exported feature table can be quickly modified using the IsoPairFinder funct
 ```{r, eval=FALSE}
 # Load required packages
 library(IsoPairFinder)
+table_mzmine <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine/mzmine_12C.csv'
+table_sample_info <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine/sample_info.xlsx'
+modify_mzmine_table(table_mzmine = table_mzmine,
+                    table_sample_info = table_sample_info,
+                    path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine',
+                    file_output = 'peak_table_C12.csv')
 ``` 
 
 ### Step 4. Organizing files
