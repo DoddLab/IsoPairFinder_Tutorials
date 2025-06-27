@@ -27,7 +27,7 @@ Generally, it needs several files (@fig-figure2-1):
 - **raw data (labeled & case group)**: the folder contains raw data of labeled mutation (mzML).
     - The folder needed to be named as “group_tracer”, e.g., “hyuA_13C”.
     - It supports mzML/mzXML data format.
-- **ms2**: The folder includes MS/MS files (mzML/mzXML/mgf)
+- **ms2**: The folder includes MS/MS files (mzML/mzXML/mgf format)
 
 ![Input data files and format requirements.](/images/figure2_1.png){.align-center #fig-figure2-1}
 
