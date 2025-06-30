@@ -307,9 +307,13 @@ command in R:
 
 \CommentTok{\# Required packages}
 \NormalTok{required\_pkgs }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{,}\StringTok{"tidyr"}\NormalTok{,}\StringTok{"readr"}\NormalTok{, }\StringTok{"stringr"}\NormalTok{, }\StringTok{"tibble"}\NormalTok{, }\StringTok{"purrr"}\NormalTok{,}
-\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"igraph"}\NormalTok{, }\StringTok{"pbapply"}\NormalTok{, }\StringTok{"Rdisop"}\NormalTok{, }\StringTok{"randomForest"}\NormalTok{, }\StringTok{"pryr"}\NormalTok{, }\StringTok{"magrittr"}\NormalTok{, }\StringTok{"rmarkdown"}\NormalTok{, }\StringTok{"caret"}\NormalTok{)}
+                   \StringTok{"ggplot2"}\NormalTok{, }\StringTok{"igraph"}\NormalTok{, }\StringTok{"pbapply"}\NormalTok{, }\StringTok{"Rdisop"}\NormalTok{, }\StringTok{"randomForest"}\NormalTok{, }\StringTok{"pryr"}\NormalTok{, }
+                   \StringTok{"magrittr"}\NormalTok{, }\StringTok{"rmarkdown"}\NormalTok{, }\StringTok{"caret"}\NormalTok{, }\StringTok{"writexl"}\NormalTok{, }\StringTok{"ggrepel"}\NormalTok{, }\StringTok{"crayon"}\NormalTok{, }
+                   \StringTok{"data.table"}\NormalTok{, }\StringTok{"mzR"}\NormalTok{, }\StringTok{"Rdisop"}\NormalTok{, }\StringTok{"grid"}\NormalTok{, }\StringTok{"gridExtra"}\NormalTok{, }\StringTok{"RaMS"}\NormalTok{, }\StringTok{"knitr"}\NormalTok{,}
+                   \StringTok{"rcdk"}\NormalTok{)}
 \NormalTok{BiocManager}\SpecialCharTok{::}\FunctionTok{install}\NormalTok{(required\_pkgs)}
 \NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"JustinZZW/SpectraTools2"}\NormalTok{)}
+\NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"DoddLab/MassToolsMjhelf"}\NormalTok{)}
 
 \CommentTok{\# install.packages("IsoPairFinder")}
 \NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"DoddLab/IsoPairFinder"}\NormalTok{)}
