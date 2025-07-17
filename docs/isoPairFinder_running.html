@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.32">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
 <meta name="author" content="Zhiwei Zhou">
 <meta name="description" content="A tutorial for IsoPairFinder">
+
 <title>3&nbsp; IsoPairFinder running – Tutorial of IsoPairFinder</title>
 <style>
 code{white-space: pre-wrap;}
@@ -76,6 +79,7 @@ div.csl-indent {
   margin-left: 2em;
 }</style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -95,7 +99,8 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -122,11 +127,16 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+
+
 </head>
+
 <body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -137,9 +147,13 @@ div.csl-indent {
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Tutorial of IsoPairFinder</a> 
         <div class="sidebar-tools-main">
@@ -154,7 +168,7 @@ div.csl-indent {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Abstract</span></a>
@@ -191,20 +205,26 @@ div.csl-indent {
   </div>
 </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of Contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Table of Contents</h2>
    
   <ul>
-<li><a href="#overview-of-the-isopairfinder-workflow" id="toc-overview-of-the-isopairfinder-workflow" class="nav-link active" data-scroll-target="#overview-of-the-isopairfinder-workflow"><span class="header-section-number">3.1</span> Overview of the IsoPairFinder workflow</a></li>
+  <li><a href="#overview-of-the-isopairfinder-workflow" id="toc-overview-of-the-isopairfinder-workflow" class="nav-link active" data-scroll-target="#overview-of-the-isopairfinder-workflow"><span class="header-section-number">3.1</span> Overview of the IsoPairFinder workflow</a></li>
   <li><a href="#sec-isoPairFinder-parameters" id="toc-sec-isoPairFinder-parameters" class="nav-link" data-scroll-target="#sec-isoPairFinder-parameters"><span class="header-section-number">3.2</span> Running IsoPairFinder and Parameters</a></li>
   <li><a href="#sec-isoPairFinder-output" id="toc-sec-isoPairFinder-output" class="nav-link" data-scroll-target="#sec-isoPairFinder-output"><span class="header-section-number">3.3</span> Output</a></li>
-  </ul></nav>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <h1 class="title"><span id="sec-isoPairFinder-running" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">IsoPairFinder running</span></span></h1>
 </div>
 
@@ -219,46 +239,49 @@ div.csl-indent {
   
 
 
-</header><section id="overview-of-the-isopairfinder-workflow" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="overview-of-the-isopairfinder-workflow">
-<span class="header-section-number">3.1</span> Overview of the IsoPairFinder workflow</h2>
+</header>
+
+
+<section id="overview-of-the-isopairfinder-workflow" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="overview-of-the-isopairfinder-workflow"><span class="header-section-number">3.1</span> Overview of the IsoPairFinder workflow</h2>
 <p>Generally, the <code>IsoPairFinder</code> processes the stable isotope tracing (STI) metabolomics data via 3 steps (<a href="#fig-figure3-1" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure3-1</span></a>): (1) differential analysis; (2) recognition of adduct, neutral loss, and in-source fragment; (3) feature pairing between unlabeled and labeled data.</p>
 <ol type="1">
-<li>
-<strong>Differential analysis</strong>: identifying the possible accumulated substrates by comparing mutant and control groups. The unlabeled data and labeled data were processed respectively.</li>
-<li>
-<strong>Recognition of adduct, neutral loss, and in-source fragments</strong>: The potential substrate ions that were identified in the unlabeled data were used to retrieve and merge the related features (e.g., adduct, neutral loss, and in-source fragments) to avoid false positives. The extracted ion chromatography (EIC) of ions was also retrieved and checked.</li>
-<li>
-<strong>Feature pairing between unlabeled and labeled data</strong>: The reserved substrate ions of unlabeled data were used for chemical formula prediction and further confirming it by searching for pairing substrate ions in the labeled data.</li>
+<li><strong>Differential analysis</strong>: Identifying the possible accumulated substrates by comparing mutant and control groups. The unlabeled data and labeled data were processed respectively.</li>
+<li><strong>Merging adduct, neutral losses, and in-source fragments</strong>: The potential substrate ions that were identified in the unlabeled data were used to retrieve and merge the related features (e.g., adduct, neutral losses, and in-source fragments) to avoid false positives. The extracted ion chromatography (EIC) of ions was also retrieved and checked.</li>
+<li><strong>Feature pairing between unlabeled and labeled data</strong>: The reserved substrate ions of unlabeled data were used for chemical formula prediction and further confirming it by searching for pairing substrate ions in the labeled data.</li>
 </ol>
 <div id="fig-figure3-1" class="align-center quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-figure3-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-figure3-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="./images/figure3_1.png" class="align-center img-fluid figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-figure3-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3.1: Overview of the IsoPairFinder workflow.
-</figcaption></figure>
+</figcaption>
+</figure>
 </div>
-</section><section id="sec-isoPairFinder-parameters" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="sec-isoPairFinder-parameters">
-<span class="header-section-number">3.2</span> Running IsoPairFinder and Parameters</h2>
+</section>
+<section id="sec-isoPairFinder-parameters" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-isoPairFinder-parameters"><span class="header-section-number">3.2</span> Running IsoPairFinder and Parameters</h2>
 <p>The basic use of <code>IsoPairFinder</code> is simply running the R script as below:</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># run the IsoPairFinder workflow</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span>
-<span><span class="co"># analysis of HyuA</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/IsoPairFinder/man/find_intemidates.html">find_intemidates</a></span><span class="op">(</span>peak_table_unlabel <span class="op">=</span> <span class="st">'peak_table_C12.csv'</span>,</span>
-<span>                 peak_table_label <span class="op">=</span> <span class="st">'peak_table_C13.csv'</span>,</span>
-<span>                 sample_info <span class="op">=</span> <span class="st">'sample_info.xlsx'</span>,</span>
-<span>                 path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/'</span>,</span>
-<span>                 polarity <span class="op">=</span> <span class="st">'positive'</span>,</span>
-<span>                 control_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"WT"</span><span class="op">)</span>,</span>
-<span>                 case_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'hyuA'</span><span class="op">)</span>,</span>
-<span>                 mz_tol <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>                 rt_tol <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>                 p_value_cutoff <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>                 p_adjust <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                 fold_change_cutoff <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                 is_recognize_adducts <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the IsoPairFinder workflow</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(IsoPairFinder)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># analysis of HyuA</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">find_intemidates</span>(<span class="at">peak_table_unlabel =</span> <span class="st">'peak_table_C12.csv'</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">peak_table_label =</span> <span class="st">'peak_table_C13.csv'</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sample_info =</span> <span class="st">'sample_info.xlsx'</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">path =</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/'</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">polarity =</span> <span class="st">'positive'</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">control_group =</span> <span class="fu">c</span>(<span class="st">"WT"</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">case_group =</span> <span class="fu">c</span>(<span class="st">'hyuA'</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">mz_tol =</span> <span class="dv">10</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">rt_tol =</span> <span class="fl">0.05</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">p_value_cutoff =</span> <span class="fl">0.05</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">p_adjust =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fold_change_cutoff =</span> <span class="dv">20</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">is_recognize_adducts =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>find_intemidates</code> function is the main function of the IsoPairFinder package, which runs the whole workflow to identify potential intermediates from stable isotope tracing metabolomics data.</p>
 <p>The parameters are provided below:</p>
@@ -276,59 +299,57 @@ Figure&nbsp;3.1: Overview of the IsoPairFinder workflow.
 <li>p_adjust: whether to perform the multiple comparison correction (FDR adjustment). Default: TRUE</li>
 <li>fold_change_cutoff: the cutoff of fold-change (case vs.&nbsp;control). Default: 20</li>
 <li>is_recognize_adduct: whether to recognize and merge the isotopes, adducts, and in-source fragments. Default: TRUE</li>
-</ul></section><section id="sec-isoPairFinder-output" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="sec-isoPairFinder-output">
-<span class="header-section-number">3.3</span> Output</h2>
+</ul>
+</section>
+<section id="sec-isoPairFinder-output" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-isoPairFinder-output"><span class="header-section-number">3.3</span> Output</h2>
 <p>The new folder <code>“00_tracer_result”</code> will be generated in the working directory (<a href="#fig-figure1-2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure1-2</span></a>), including “tracer_pair_result.xlsx” and several plots in PDF files. Specifically, these files are provided in the result folder:</p>
 <ul>
-<li>
-<p><strong>tracer_pair_result.xlsx</strong>: This file contains the results from differential analysis, recognized features, and identified substrate feature pairs. It has 4 sheets:</p>
+<li><p><strong>tracer_pair_result.xlsx</strong>: This file contains the results from differential analysis, recognized features, and identified substrate feature pairs. It has 4 sheets:</p>
 <ul>
-<li>
-<strong>raw_data_unlabeled</strong>: the differential analysis of the unlabeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.</li>
-<li>
-<strong>raw_data_labeled</strong>: the differential analysis of the labeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.</li>
-<li>
-<strong>recognized_peak_unlabel</strong>: the table of recognized adducts, neutral loss, and in-source fragments (<a href="#fig-figure3-2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure3-2</span></a>). The method used here was followed from a previous publication<span class="citation" data-cites="zhou_metabolite_2022"><sup><a href="#ref-zhou_metabolite_2022" role="doc-biblioref">1</a></sup></span>. Some key column definitions:
+<li><strong>raw_data_unlabeled</strong>: the differential analysis of the unlabeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.</li>
+<li><strong>raw_data_labeled</strong>: the differential analysis of the labeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.</li>
+<li><strong>recognized_peak_unlabel</strong>: the table of recognized adducts, neutral loss, and in-source fragments (<a href="#fig-figure3-2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure3-2</span></a>). The method used here was followed from a previous publication<span class="citation" data-cites="zhou_metabolite_2022"><sup><a href="#ref-zhou_metabolite_2022" role="doc-biblioref">1</a></sup></span>. Some key column definitions:
 <ul>
 <li>base_peak: the base peaks that are used to recognize the adducts and in-source fragments.</li>
 <li>relationship: the relationship with the base peak.</li>
 <li>num_annotation: the number of features that belong to the same group.</li>
 <li>group_order: the feature group ID.</li>
-</ul>
-</li>
-<li>
-<strong>paired_table</strong>: the table of possible substrate ion pairs identified. Each row represents one pair of substrate ions (<a href="#fig-figure3-2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure3-2</span></a>). Specifically,
+</ul></li>
+<li><strong>paired_table</strong>: the table of possible substrate ion pairs identified. Each row represents one pair of substrate ions (<a href="#fig-figure3-2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure3-2</span></a>). Specifically,
 <ul>
 <li>unlabeled_feature_id/mz/rt: the property (id, mz, rt) of substrate in the unlabeled group.</li>
 <li>labled_feature_id/mz/rt: the property (id, mz, rt) of substrate in the labeled group</li>
 <li>mass_shift_label: the estimated carbon number</li>
 <li>p_values/fold_changes/average_abundance: the statistics of differential analysis</li>
-</ul>
-</li>
-</ul>
-</li>
+</ul></li>
+</ul></li>
 <li><p>“<strong>volcano_plot_unlabeled.pdf</strong>” / “<strong>volcano_plot_labeled.pdf</strong>”: the volcano plots that show a significant accumulation between the case (mutant) and control groups.</p></li>
 <li><p>“<strong>isotope_pair_plot_overview.pdf</strong>”: the overview of the EIC mirror for identified substrate ion pairs.</p></li>
 <li><p>“<strong>isotope_pair_list.pdf</strong>”: the lists of EIC mirror plots for identified substrate ion pairs.</p></li>
 <li><p>“<strong>00_intermediate_data</strong>”: the intermediate data during processing. It was used for debugging.</p></li>
 </ul>
 <div id="fig-figure3-2" class="align-center quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-figure3-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-figure3-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="./images/figure3_2.png" class="align-center img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-figure3-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3.2: The screenshot of the tracer pair result table
-</figcaption></figure>
+</figcaption>
+</figure>
 </div>
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-zhou_metabolite_2022" class="csl-entry" role="listitem">
-<div class="csl-left-margin">1. </div>
-<div class="csl-right-inline">Zhou, Z. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-022-34537-6">Metabolite annotation from knowns to unknowns through knowledge-guided multi-layer metabolic networking</a>. <em>Nature Communications</em> <strong>13</strong>, 6656 (2022).</div>
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Zhou, Z. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-022-34537-6">Metabolite annotation from knowns to unknowns through knowledge-guided multi-layer metabolic networking</a>. <em>Nature Communications</em> <strong>13</strong>, 6656 (2022).</div>
 </div>
 </div>
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -726,7 +747,9 @@ Figure&nbsp;3.2: The screenshot of the tracer pair result table
       }
     }
   });
-  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
       <a href="./data_preparation.html" class="pagination-link" aria-label="Data Preparation">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Preparation</span></span>
       </a>          
@@ -738,6 +761,7 @@ Figure&nbsp;3.2: The screenshot of the tracer pair result table
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

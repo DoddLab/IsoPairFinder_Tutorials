@@ -45,7 +45,7 @@ library(IsoPairFinder)
 # analysis of HyuA 
 find_intemidates(peak_table_unlabel = 'peak_table_C12.csv',
                  peak_table_label = 'peak_table_C13.csv',
-                 sample_info = 'sample_info.xlsx',
+                 sample_info = 'sample_info.csv',
                  path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/',
                  polarity = 'positive',
                  control_group = c("WT"),

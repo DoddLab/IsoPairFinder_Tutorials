@@ -3,8 +3,8 @@
 ## Overview of the IsoPairFinder workflow
 Generally, the `IsoPairFinder` processes the stable isotope tracing (STI) metabolomics data via 3 steps (@fig-figure3-1): (1) differential analysis; (2) recognition of adduct, neutral loss, and in-source fragment; (3) feature pairing between unlabeled and labeled data.
 
-1. **Differential analysis**: identifying the possible accumulated substrates by comparing mutant and control groups. The unlabeled data and labeled data were processed respectively.
-2. **Recognition of adduct, neutral loss, and in-source fragments**: The potential substrate ions that were identified in the unlabeled data were used to retrieve and merge the related features (e.g., adduct, neutral loss, and in-source fragments) to avoid false positives. The extracted ion chromatography (EIC) of ions was also retrieved and checked. 
+1. **Differential analysis**: Identifying the possible accumulated substrates by comparing mutant and control groups. The unlabeled data and labeled data were processed respectively.
+2. **Merging adduct, neutral losses, and in-source fragments**: The potential substrate ions that were identified in the unlabeled data were used to retrieve and merge the related features (e.g., adduct, neutral losses, and in-source fragments) to avoid false positives. The extracted ion chromatography (EIC) of ions was also retrieved and checked. 
 3. **Feature pairing between unlabeled and labeled data**: The reserved substrate ions of unlabeled data were used for chemical formula prediction and further confirming it by searching for pairing substrate ions in the labeled data.
 
 ![Overview of the IsoPairFinder workflow.](/images/figure3_1.png){ width=50% .align-center #fig-figure3-1}

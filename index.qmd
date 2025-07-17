@@ -1,7 +1,19 @@
 # Abstract {.unnumbered}
 
-Identifying functional gene clusters in gut microbes is increasingly straightforward with advanced sequencing and gene manipulation techniques. However, pinpointing specific metabolic intermediates to fully understand their molecular mechanisms remains a significant challenge. While Stable Isotope Tracing (SIT) metabolomics holds promise for discovering new metabolites, the complex analysis of LC-MS data limits its utility in elucidating gene function and identifying these crucial intermediates. We developed **IsoPairFinder** to overcome this barrier. This novel tool provides the first end-to-end workflow for efficiently identifying potential intermediates from SIT metabolomics data, thus accelerating metabolic pathway elucidation in the gut microbiota. IsoPairFinder's robust workflow includes: (1) detecting differential ion signals from gene mutations; (2) consolidating redundant LC-MS signals (isotopes, adducts, in-source fragments); and (3) pairing ¹²C/¹³C features to highlight potential intermediates. Designed for compatibility with various metabolomics data processing tools, IsoPairFinder empowers biologists to quickly identify candidate substrates for hypothesis validation, transforming complex SIT metabolomics data into actionable insights.
+Understanding metabolic pathways in gut microbes is crucial for advancing microbiome research, yet identifying specific metabolic intermediates remains challenging due to the complexity of LC-MS data analysis. IsoPairFinder is a novel tool designed to streamline Stable Isotope Tracing (SIT) metabolomics from gene-edited microbes, enabling efficient identification of pathway intermediates and gene functions. IsoPairFinder offers an end-to-end workflow that: (1) Detects differential ion signals resulting from gene mutations; (2) Consolidates redundant LC-MS features (isotopes, adducts, fragments); (3) Pairs ¹²C/¹³C features to highlight candidate intermediates. Compatible with popular metabolomics data processing tools, IsoPairFinder empowers researchers to rapidly generate actionable biological insights. This tutorial provides step-by-step guidance for using **IsoPairFinder**. 
 
-This website is the tutorial of the **IsoPairFinder** package. The source code is available at [GitHub](https://github.com/DoddLab/IsoPairFinder)
 
-If you have any questions, please contact **Zhiwei Zhou** PhD (Department of Pathology, Stanford University).
+The ways to access *IsoPairFinder* are listed below:
+
+| Access Method    | Type | Link |
+|------------------ |------------------|---------|
+| R Package        | Command line tools | [Link](https://github.com/DoddLab/IsoPairFinder) |
+| Web Server       | Graphic interface within GNPS2 ecosystem | [Link](https://gnps2.org/workflowinput?workflowname=isopairspec_nextflow_workflow) |
+
+<br>
+
+If you used **IsoPairFinder** in your research, please cite the following paper:
+
+- Zhou, Z., et al. (2024). IsoPairFinder: A tool for biochemical pathway discovery using stable isotope tracing metabolomics, In preparation.
+
+For questions, contact **Zhiwei Zhou** (Stanford University).

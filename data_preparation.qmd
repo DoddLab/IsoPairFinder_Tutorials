@@ -1,5 +1,5 @@
 # Data Preparation {#sec-data-preparation}
-The IsoPairFinder is designed to analyze stable isotope tracing metabolomics data to identify the possible substrate candidates. Such a study design needs: (i) an unlabeled group: mutant vs. wild-type cultures, (ii) a labeled group: mutant vs. wild-type cultures. 
+The IsoPairFinder is designed to analyze stable isotope tracing metabolomics data with gene manipulation studies to identify the possible substrate candidates. Such a study design needs: (i) an unlabeled group: mutant vs. wild-type cultures, (ii) a labeled group: mutant vs. wild-type cultures. 
 
 For the input of IsoPairFinder, it needs two feature tables (“peak_table_C12.csv” and “peak_table_C13.csv”) for each group, and a table of sample information (“sample_info.csv”). In addition, the raw MS data files (in mzML or mzXML format) are needed and provided in the folders. The demo data can be downloaded [here](https://github.com/DoddLab/IsoPairFinder_demo_data).
 
@@ -11,21 +11,21 @@ Generally, it needs several files (@fig-figure2-1):
     - The first 4 columns should be “id”, “mz”, “rt”, “ms1_isotopes”, and other columns are sample names.
 - **sample_info.csv**: the sample information file in CSV/XLSX format. 
     - The first 4 columns should be “sample_id”, “group”, “tracer_group”, and “type”. 
-    - The “sample_id” should be consistent with the sample names in the peak table.
+    - The “sample_id” should be consistent with the sample names in the peak table. **Note: The sample names should be same as the column names in the peak table and raw data files.**
     - The “group” is the sample group. It only supports 2 groups in the IsoPairFinder version.
     - The “tracer_group” is the used tracers; it should be “12C” and “13C”.
     - The “type” is the sample type, e.g., “sample”, “qc”, “blank”. Default: “sample”
 - **raw data (unlabeled & control group)**: the folder contains raw data of the unlabeled WT.
-    - The folder needed to be named as “group_tracer”, e.g., “WT_12C”.
+    - The folder needed to be named as “group_tracer_group”, e.g., “WT_12C”.
     - It supports mzML/mzXML data format.
 - **raw data (unlabeled & case group)**: the folder contains raw data of unlabeled mutation (mzML).
-    - The folder needed to be named as “group_tracer”, e.g., “hyuA_12C”.
+    - The folder needed to be named as “group_tracer_group”, e.g., “hyuA_12C”.
     - It supports mzML/mzXML data format.
 -  **raw data (labeled & control group)**: the folder contains raw data of labeled WT (mzML). 
-    - The folder needed to be named as “group_tracer”, e.g., “WT_13C”.
+    - The folder needed to be named as “group_tracer_group”, e.g., “WT_13C”.
     - It supports mzML/mzXML data format.
 - **raw data (labeled & case group)**: the folder contains raw data of labeled mutation (mzML).
-    - The folder needed to be named as “group_tracer”, e.g., “hyuA_13C”.
+    - The folder needed to be named as “group_tracer_group”, e.g., “hyuA_13C”.
     - It supports mzML/mzXML data format.
 - **ms2**: The folder includes MS/MS files (mzML/mzXML/mgf format)
 

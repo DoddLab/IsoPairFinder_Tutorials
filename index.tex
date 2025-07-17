@@ -258,32 +258,56 @@
 
 \markboth{Abstract}{Abstract}
 
-Identifying functional gene clusters in gut microbes is increasingly
-straightforward with advanced sequencing and gene manipulation
-techniques. However, pinpointing specific metabolic intermediates to
-fully understand their molecular mechanisms remains a significant
-challenge. While Stable Isotope Tracing (SIT) metabolomics holds promise
-for discovering new metabolites, the complex analysis of LC-MS data
-limits its utility in elucidating gene function and identifying these
-crucial intermediates. We developed \textbf{IsoPairFinder} to overcome
-this barrier. This novel tool provides the first end-to-end workflow for
-efficiently identifying potential intermediates from SIT metabolomics
-data, thus accelerating metabolic pathway elucidation in the gut
-microbiota. IsoPairFinder's robust workflow includes: (1) detecting
-differential ion signals from gene mutations; (2) consolidating
-redundant LC-MS signals (isotopes, adducts, in-source fragments); and
-(3) pairing ¹²C/¹³C features to highlight potential intermediates.
-Designed for compatibility with various metabolomics data processing
-tools, IsoPairFinder empowers biologists to quickly identify candidate
-substrates for hypothesis validation, transforming complex SIT
-metabolomics data into actionable insights.
+Understanding metabolic pathways in gut microbes is crucial for
+advancing microbiome research, yet identifying specific metabolic
+intermediates remains challenging due to the complexity of LC-MS data
+analysis. IsoPairFinder is a novel tool designed to streamline Stable
+Isotope Tracing (SIT) metabolomics from gene-edited microbes, enabling
+efficient identification of pathway intermediates and gene functions.
+IsoPairFinder offers an end-to-end workflow that: (1) Detects
+differential ion signals resulting from gene mutations; (2) Consolidates
+redundant LC-MS features (isotopes, adducts, fragments); (3) Pairs
+¹²C/¹³C features to highlight candidate intermediates. Compatible with
+popular metabolomics data processing tools, IsoPairFinder empowers
+researchers to rapidly generate actionable biological insights. This
+tutorial provides step-by-step guidance for using
+\textbf{IsoPairFinder}.
 
-This website is the tutorial of the \textbf{IsoPairFinder} package. The
-source code is available at
-\href{https://github.com/DoddLab/IsoPairFinder}{GitHub}
+The ways to access \emph{IsoPairFinder} are listed below:
 
-If you have any questions, please contact \textbf{Zhiwei Zhou} PhD
-(Department of Pathology, Stanford University).
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Access Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Link
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+R Package & Command line tools &
+\href{https://github.com/DoddLab/IsoPairFinder}{Link} \\
+Web Server & Graphic interface within GNPS2 ecosystem &
+\href{https://gnps2.org/workflowinput?workflowname=isopairspec_nextflow_workflow}{Link} \\
+\end{longtable}
+
+If you used \textbf{IsoPairFinder} in your research, please cite the
+following paper:
+
+\begin{itemize}
+\tightlist
+\item
+  Zhou, Z., et al.~(2024). IsoPairFinder: A tool for biochemical pathway
+  discovery using stable isotope tracing metabolomics, In preparation.
+\end{itemize}
+
+For questions, contact \textbf{Zhiwei Zhou} (Stanford University).
 
 \bookmarksetup{startatroot}
 
@@ -361,7 +385,7 @@ The basic use of IsoPairFinder is simply running the R script as below:
 \CommentTok{\# analysis of HyuA }
 \FunctionTok{find\_intemidates}\NormalTok{(}\AttributeTok{peak\_table\_unlabel =} \StringTok{\textquotesingle{}peak\_table\_C12.csv\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{peak\_table\_label =} \StringTok{\textquotesingle{}peak\_table\_C13.csv\textquotesingle{}}\NormalTok{,}
-                 \AttributeTok{sample\_info =} \StringTok{\textquotesingle{}sample\_info.xlsx\textquotesingle{}}\NormalTok{,}
+                 \AttributeTok{sample\_info =} \StringTok{\textquotesingle{}sample\_info.csv\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial/\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{polarity =} \StringTok{\textquotesingle{}positive\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{control\_group =} \FunctionTok{c}\NormalTok{(}\StringTok{"WT"}\NormalTok{),}
@@ -404,9 +428,10 @@ be found in Section~\ref{sec-isoPairFinder-output}.
 \chapter{Data Preparation}\label{sec-data-preparation}
 
 The IsoPairFinder is designed to analyze stable isotope tracing
-metabolomics data to identify the possible substrate candidates. Such a
-study design needs: (i) an unlabeled group: mutant vs.~wild-type
-cultures, (ii) a labeled group: mutant vs.~wild-type cultures.
+metabolomics data with gene manipulation studies to identify the
+possible substrate candidates. Such a study design needs: (i) an
+unlabeled group: mutant vs.~wild-type cultures, (ii) a labeled group:
+mutant vs.~wild-type cultures.
 
 For the input of IsoPairFinder, it needs two feature tables
 (``peak\_table\_C12.csv'' and ``peak\_table\_C13.csv'') for each group,
@@ -450,7 +475,8 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
     ``tracer\_group'', and ``type''.
   \item
     The ``sample\_id'' should be consistent with the sample names in the
-    peak table.
+    peak table. \textbf{Note: The sample names should be same as the
+    column names in the peak table and raw data files.}
   \item
     The ``group'' is the sample group. It only supports 2 groups in the
     IsoPairFinder version.
@@ -468,7 +494,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
   \begin{itemize}
   \tightlist
   \item
-    The folder needed to be named as ``group\_tracer'', e.g.,
+    The folder needed to be named as ``group\_tracer\_group'', e.g.,
     ``WT\_12C''.
   \item
     It supports mzML/mzXML data format.
@@ -480,7 +506,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
   \begin{itemize}
   \tightlist
   \item
-    The folder needed to be named as ``group\_tracer'', e.g.,
+    The folder needed to be named as ``group\_tracer\_group'', e.g.,
     ``hyuA\_12C''.
   \item
     It supports mzML/mzXML data format.
@@ -492,7 +518,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
   \begin{itemize}
   \tightlist
   \item
-    The folder needed to be named as ``group\_tracer'', e.g.,
+    The folder needed to be named as ``group\_tracer\_group'', e.g.,
     ``WT\_13C''.
   \item
     It supports mzML/mzXML data format.
@@ -504,7 +530,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
   \begin{itemize}
   \tightlist
   \item
-    The folder needed to be named as ``group\_tracer'', e.g.,
+    The folder needed to be named as ``group\_tracer\_group'', e.g.,
     ``hyuA\_13C''.
   \item
     It supports mzML/mzXML data format.
@@ -888,16 +914,16 @@ between unlabeled and labeled data.
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  \textbf{Differential analysis}: identifying the possible accumulated
+  \textbf{Differential analysis}: Identifying the possible accumulated
   substrates by comparing mutant and control groups. The unlabeled data
   and labeled data were processed respectively.
 \item
-  \textbf{Recognition of adduct, neutral loss, and in-source fragments}:
-  The potential substrate ions that were identified in the unlabeled
-  data were used to retrieve and merge the related features (e.g.,
-  adduct, neutral loss, and in-source fragments) to avoid false
-  positives. The extracted ion chromatography (EIC) of ions was also
-  retrieved and checked.
+  \textbf{Merging adduct, neutral losses, and in-source fragments}: The
+  potential substrate ions that were identified in the unlabeled data
+  were used to retrieve and merge the related features (e.g., adduct,
+  neutral losses, and in-source fragments) to avoid false positives. The
+  extracted ion chromatography (EIC) of ions was also retrieved and
+  checked.
 \item
   \textbf{Feature pairing between unlabeled and labeled data}: The
   reserved substrate ions of unlabeled data were used for chemical
