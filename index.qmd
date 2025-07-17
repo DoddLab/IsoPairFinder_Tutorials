@@ -14,6 +14,6 @@ The ways to access *IsoPairFinder* are listed below:
 
 If you used **IsoPairFinder** in your research, please cite the following paper:
 
-- Zhou, Z., et al. (2024). IsoPairFinder: A tool for biochemical pathway discovery using stable isotope tracing metabolomics, In preparation.
+- Zhou, Z., et al., IsoPairFinder: A tool for biochemical pathway discovery using stable isotope tracing metabolomics, In preparation, **2025**.
 
 For questions, contact **Zhiwei Zhou** (Stanford University).
