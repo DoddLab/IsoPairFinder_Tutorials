@@ -389,14 +389,14 @@ The basic use of IsoPairFinder is simply running the R script as below:
 \FunctionTok{library}\NormalTok{(tidyverse)}
 \FunctionTok{library}\NormalTok{(IsoPairFinder)}
 
-\CommentTok{\# analysis of HyuA }
+\CommentTok{\# analysis of HyuA (Mutant) }
 \FunctionTok{find\_intemidates}\NormalTok{(}\AttributeTok{peak\_table\_unlabel =} \StringTok{\textquotesingle{}peak\_table\_C12.csv\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{peak\_table\_label =} \StringTok{\textquotesingle{}peak\_table\_C13.csv\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{sample\_info =} \StringTok{\textquotesingle{}sample\_info.csv\textquotesingle{}}\NormalTok{,}
-                 \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial/\textquotesingle{}}\NormalTok{,}
+                 \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250817\_submit\_test/\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{polarity =} \StringTok{\textquotesingle{}positive\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{control\_group =} \FunctionTok{c}\NormalTok{(}\StringTok{"WT"}\NormalTok{),}
-                 \AttributeTok{case\_group =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}hyuA\textquotesingle{}}\NormalTok{),}
+                 \AttributeTok{case\_group =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}MUTANT\textquotesingle{}}\NormalTok{),}
                  \AttributeTok{mz\_tol =} \DecValTok{10}\NormalTok{,}
                  \AttributeTok{rt\_tol =} \FloatTok{0.05}\NormalTok{,}
                  \AttributeTok{p\_value\_cutoff =} \FloatTok{0.05}\NormalTok{,}
@@ -486,7 +486,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
     column names in the peak table and raw data files.}
   \item
     The ``group'' is the sample group. It only supports 2 groups in the
-    IsoPairFinder version.
+    IsoPairFinder version, ``WT'' and ``MUTANT''.
   \item
     The ``tracer\_group'' is the used tracers; it should be ``12C'' and
     ``13C''.
@@ -501,8 +501,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
   \begin{itemize}
   \tightlist
   \item
-    The folder needed to be named as ``group\_tracer\_group'', e.g.,
-    ``WT\_12C''.
+    The folder needed to be named as ``WT\_12C''.
   \item
     It supports mzML/mzXML data format.
   \end{itemize}
@@ -513,8 +512,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
   \begin{itemize}
   \tightlist
   \item
-    The folder needed to be named as ``group\_tracer\_group'', e.g.,
-    ``hyuA\_12C''.
+    The folder needed to be named as ``MUTANT\_12C''.
   \item
     It supports mzML/mzXML data format.
   \end{itemize}
@@ -525,8 +523,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
   \begin{itemize}
   \tightlist
   \item
-    The folder needed to be named as ``group\_tracer\_group'', e.g.,
-    ``WT\_13C''.
+    The folder needed to be named as ``WT\_13C''.
   \item
     It supports mzML/mzXML data format.
   \end{itemize}
@@ -537,8 +534,7 @@ Generally, it needs several files (Figure~\ref{fig-figure2-1}):
   \begin{itemize}
   \tightlist
   \item
-    The folder needed to be named as ``group\_tracer\_group'', e.g.,
-    ``hyuA\_13C''.
+    The folder needed to be named as ``MUTANT\_13C''.
   \item
     It supports mzML/mzXML data format.
   \end{itemize}
@@ -628,6 +624,11 @@ MZmine\textsuperscript{4} &
 & Section~\ref{sec-mzmine} \\
 \end{longtable}
 
+\textbf{All Demo Code below is demonstrated for unlabeled group data
+processing (12C).} For the labeled group data processing (13C), the code
+is similar, but the folder names and file paths need to be updated
+accordingly.
+
 \section{xcms}\label{sec-xcms}
 
 \subsection{Step 1: MS1 and MS2 data
@@ -665,12 +666,12 @@ processed separately.}
 \tightlist
 \item
   \textbf{Unlabeled group data processing}. The mzML files are placed in
-  two folders named ``WT'' and ``hyuA\_12C'' according to their groups.
-  These data were further processed with the following script.
+  two folders named ``WT'' and ``MUTANT\_12C'' according to their
+  groups. These data were further processed with the following script.
 \item
   \textbf{Labeled group data processing}. The mzML files are placed in
-  two folders named ``WT'' and ``hyuA\_12C'' according to their groups.
-  These data were further processed with the following script.
+  two folders named ``WT'' and ``MUTANT\_13C'' according to their
+  groups. These data were further processed with the following script.
 \end{itemize}
 
 \begin{Shaded}
@@ -738,11 +739,17 @@ groups.
 \begin{Highlighting}[]
 \CommentTok{\# Load required packages}
 \FunctionTok{library}\NormalTok{(IsoPairFinder)}
-\FunctionTok{modify\_xcms\_table}\NormalTok{(}\AttributeTok{table\_xcms =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/00\_raw\_data\_processing/Peak{-}table.csv\textquotesingle{}}\NormalTok{,}
-                  \AttributeTok{table\_camera =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/00\_raw\_data\_processing/adduct\_result\_camera.xlsx\textquotesingle{}}\NormalTok{,}
-                  \AttributeTok{table\_sample\_info =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/sample\_info.xlsx\textquotesingle{}}\NormalTok{,}
+
+\CommentTok{\# 12C}
+\FunctionTok{modify\_xcms\_table}\NormalTok{(}\AttributeTok{table\_xcms =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/00\_raw\_data\_processing/Peak{-}table.csv\textquotesingle{}}\NormalTok{,}
+                  \AttributeTok{table\_camera =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/00\_raw\_data\_processing/adduct\_result\_camera.xlsx\textquotesingle{}}\NormalTok{,}
+                  \AttributeTok{table\_sample\_info =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_xcms/sample\_info.csv\textquotesingle{}}\NormalTok{,}
                   \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C\textquotesingle{}}\NormalTok{,}
                   \AttributeTok{file\_output =} \StringTok{\textquotesingle{}peak\_table\_C12.csv\textquotesingle{}}\NormalTok{)}
+
+\FunctionTok{file.copy}\NormalTok{(}\AttributeTok{from =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_xcms/00\_raw\_data\_processing\_12C/peak\_table\_C12.csv\textquotesingle{}}\NormalTok{,}
+          \AttributeTok{to =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_xcms/peak\_table\_C12.csv\textquotesingle{}}\NormalTok{,}
+          \AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -812,12 +819,14 @@ samples and groups.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(IsoPairFinder)}
-\NormalTok{table\_msdial }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial/hyuA\_UA\_48h\_area.txt\textquotesingle{}}
-\NormalTok{table\_sample\_info }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial/sample\_info.xlsx\textquotesingle{}}
+
+\CommentTok{\# 12C}
+\NormalTok{table\_msdial }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_msdial/hyuA\_UA\_48h\_area.txt\textquotesingle{}}
+\NormalTok{table\_sample\_info }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_msdial/sample\_info.csv\textquotesingle{}}
 
 \FunctionTok{modify\_msdial\_table}\NormalTok{(}\AttributeTok{table\_msdial =}\NormalTok{ table\_msdial,}
                     \AttributeTok{table\_sample\_info =}\NormalTok{ table\_sample\_info,}
-                    \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial\textquotesingle{}}\NormalTok{,}
+                    \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_msdial\textquotesingle{}}\NormalTok{,}
                     \AttributeTok{file\_output =} \StringTok{\textquotesingle{}peak\_table\_C12.csv\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -889,11 +898,13 @@ samples and groups.
 \begin{Highlighting}[]
 \CommentTok{\# Load required packages}
 \FunctionTok{library}\NormalTok{(IsoPairFinder)}
-\NormalTok{table\_mzmine }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_mzmine/mzmine\_12C.csv\textquotesingle{}}
-\NormalTok{table\_sample\_info }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_mzmine/sample\_info.xlsx\textquotesingle{}}
+
+\CommentTok{\# 12C}
+\NormalTok{table\_mzmine }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_mzmine/mzmine\_12C.csv\textquotesingle{}}
+\NormalTok{table\_sample\_info }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_mzmine/sample\_info.csv\textquotesingle{}}
 \FunctionTok{modify\_mzmine\_table}\NormalTok{(}\AttributeTok{table\_mzmine =}\NormalTok{ table\_mzmine,}
                     \AttributeTok{table\_sample\_info =}\NormalTok{ table\_sample\_info,}
-                    \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_mzmine\textquotesingle{}}\NormalTok{,}
+                    \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/20250817\_test/Demo\_data\_mzmine\textquotesingle{}}\NormalTok{,}
                     \AttributeTok{file\_output =} \StringTok{\textquotesingle{}peak\_table\_C12.csv\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -968,7 +979,7 @@ as below:
                  \AttributeTok{path =} \StringTok{\textquotesingle{}\textasciitilde{}/Project/00\_Uric\_Acid\_project/Data/20250606\_isopairfind\_test/Demo\_data\_msdial/\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{polarity =} \StringTok{\textquotesingle{}positive\textquotesingle{}}\NormalTok{,}
                  \AttributeTok{control\_group =} \FunctionTok{c}\NormalTok{(}\StringTok{"WT"}\NormalTok{),}
-                 \AttributeTok{case\_group =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}hyuA\textquotesingle{}}\NormalTok{),}
+                 \AttributeTok{case\_group =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}MUTANT\textquotesingle{}}\NormalTok{),}
                  \AttributeTok{mz\_tol =} \DecValTok{10}\NormalTok{,}
                  \AttributeTok{rt\_tol =} \FloatTok{0.05}\NormalTok{,}
                  \AttributeTok{p\_value\_cutoff =} \FloatTok{0.05}\NormalTok{,}
@@ -1006,8 +1017,8 @@ The parameters are provided below:
   control\_group: the control group, e.g., ``WT''. The group names
   should be included in the sample information table.
 \item
-  case\_group: the case group, e.g., ``hyuA''. The group names should be
-  included in the sample information table.
+  case\_group: the case group, e.g., ``MUTANT''. The group names should
+  be included in the sample information table.
 \item
   mz\_tol: m/z tolerance (unit: ppm) for searching the intermediate
   ions. Default: 10 ppm

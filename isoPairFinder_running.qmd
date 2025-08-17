@@ -22,7 +22,7 @@ find_intemidates(peak_table_unlabel = 'peak_table_C12.csv',
                  path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/',
                  polarity = 'positive',
                  control_group = c("WT"),
-                 case_group = c('hyuA'),
+                 case_group = c('MUTANT'),
                  mz_tol = 10,
                  rt_tol = 0.05,
                  p_value_cutoff = 0.05,
@@ -41,7 +41,7 @@ The parameters are provided below:
 - path: the working path.
 - polarity: ionization polarity, “positive” or “negative”. Default: “positive”
 - control_group: the control group, e.g., “WT”. The group names should be included in the sample information table.
-- case_group: the case group, e.g., “hyuA”. The group names should be included in the sample information table.
+- case_group: the case group, e.g., “MUTANT”. The group names should be included in the sample information table.
 - mz_tol: m/z tolerance (unit: ppm) for searching the intermediate ions. Default: 10 ppm
 - rt_tol: retention time tolerance (unit: minute) for searching the intermediate ions. Default: 0.05 min
 - p_value_cutoff: the cutoff of p-value (t-test). Default: 0.05

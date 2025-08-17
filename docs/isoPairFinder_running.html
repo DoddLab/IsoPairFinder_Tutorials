@@ -252,7 +252,7 @@ Figure&nbsp;3.1: Overview of the IsoPairFinder workflow.
 <span>                 path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/'</span>,</span>
 <span>                 polarity <span class="op">=</span> <span class="st">'positive'</span>,</span>
 <span>                 control_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"WT"</span><span class="op">)</span>,</span>
-<span>                 case_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'hyuA'</span><span class="op">)</span>,</span>
+<span>                 case_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'MUTANT'</span><span class="op">)</span>,</span>
 <span>                 mz_tol <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>                 rt_tol <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>                 p_value_cutoff <span class="op">=</span> <span class="fl">0.05</span>,</span>
@@ -269,7 +269,7 @@ Figure&nbsp;3.1: Overview of the IsoPairFinder workflow.
 <li>path: the working path.</li>
 <li>polarity: ionization polarity, “positive” or “negative”. Default: “positive”</li>
 <li>control_group: the control group, e.g., “WT”. The group names should be included in the sample information table.</li>
-<li>case_group: the case group, e.g., “hyuA”. The group names should be included in the sample information table.</li>
+<li>case_group: the case group, e.g., “MUTANT”. The group names should be included in the sample information table.</li>
 <li>mz_tol: m/z tolerance (unit: ppm) for searching the intermediate ions. Default: 10 ppm</li>
 <li>rt_tol: retention time tolerance (unit: minute) for searching the intermediate ions. Default: 0.05 min</li>
 <li>p_value_cutoff: the cutoff of p-value (t-test). Default: 0.05</li>

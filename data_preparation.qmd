@@ -12,20 +12,20 @@ Generally, it needs several files (@fig-figure2-1):
 - **sample_info.csv**: the sample information file in CSV/XLSX format. 
     - The first 4 columns should be “sample_id”, “group”, “tracer_group”, and “type”. 
     - The “sample_id” should be consistent with the sample names in the peak table. **Note: The sample names should be same as the column names in the peak table and raw data files.**
-    - The “group” is the sample group. It only supports 2 groups in the IsoPairFinder version.
+    - The “group” is the sample group. It only supports 2 groups in the IsoPairFinder version, "WT" and "MUTANT".
     - The “tracer_group” is the used tracers; it should be “12C” and “13C”.
     - The “type” is the sample type, e.g., “sample”, “qc”, “blank”. Default: “sample”
 - **raw data (unlabeled & control group)**: the folder contains raw data of the unlabeled WT.
-    - The folder needed to be named as “group_tracer_group”, e.g., “WT_12C”.
+    - The folder needed to be named as “WT_12C”.
     - It supports mzML/mzXML data format.
 - **raw data (unlabeled & case group)**: the folder contains raw data of unlabeled mutation (mzML).
-    - The folder needed to be named as “group_tracer_group”, e.g., “hyuA_12C”.
+    - The folder needed to be named as “MUTANT_12C”.
     - It supports mzML/mzXML data format.
 -  **raw data (labeled & control group)**: the folder contains raw data of labeled WT (mzML). 
-    - The folder needed to be named as “group_tracer_group”, e.g., “WT_13C”.
+    - The folder needed to be named as “WT_13C”.
     - It supports mzML/mzXML data format.
 - **raw data (labeled & case group)**: the folder contains raw data of labeled mutation (mzML).
-    - The folder needed to be named as “group_tracer_group”, e.g., “hyuA_13C”.
+    - The folder needed to be named as “MUTANT_13C”.
     - It supports mzML/mzXML data format.
 - **ms2**: The folder includes MS/MS files (mzML/mzXML/mgf format)
 
@@ -44,7 +44,8 @@ Table: Summary of demo data, processed results, and tutorial {#tbl-table2-1}
 | MZmine @schmid_integrative_2023   | [Download](https://github.com/DoddLab/IsoPairFinder_DemoData_DiffTools/tree/main/00_raw_data) | [Download](https://github.com/DoddLab/IsoPairFinder_DemoData_DiffTools/tree/main/01_input_data_IsoPairFinder/mzmine) | [Tutorial](https://mzmine.github.io/mzmine_documentation/index.html) | @sec-mzmine | 
 
 
-<br><br>
+<font color="red">**All Demo Code below is demonstrated for unlabeled group data processing (12C).**</font> For the labeled group data processing (13C), the code is similar, but the folder names and file paths need to be updated accordingly.
+
 
 
 ## xcms {#sec-xcms}
@@ -57,8 +58,9 @@ The raw data for the demo could be downloaded [here](https://github.com/DoddLab/
 ### Step 2. Peak picking using XCMS and isotope merging
 The R package `xcms` (version 3.20.0) @smith_xcms_2006 for peak detection and alignment, and the R package `CAMERA` (version 1.54.0) @kuhl_camera_2012 were used for isotope annotation. **Note: The unlabeled group data and the labeled group data were processed separately.**
 
-- **Unlabeled group data processing**. The mzML files are placed in two folders named “WT” and “hyuA_12C” according to their groups. These data were further processed with the following script.
-- **Labeled group data processing**. The mzML files are placed in two folders named “WT” and “hyuA_12C” according to their groups. These data were further processed with the following script.
+- **Unlabeled group data processing**. The mzML files are placed in two folders named “WT” and “MUTANT_12C” according to their groups. These data were further processed with the following script.
+- **Labeled group data processing**. The mzML files are placed in two folders named “WT” and “MUTANT_13C” according to their groups. These data were further processed with the following script.
+
 
 ```{r, eval=FALSE}
 # Load required packages
@@ -117,11 +119,17 @@ The xcms exported feature table could be quickly modified using the IsoPairFinde
 ```{r, eval=FALSE}
 # Load required packages
 library(IsoPairFinder)
-modify_xcms_table(table_xcms = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/Peak-table.csv',
-                  table_camera = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/adduct_result_camera.xlsx',
-                  table_sample_info = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/sample_info.xlsx',
+
+# 12C
+modify_xcms_table(table_xcms = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/Peak-table.csv',
+                  table_camera = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/adduct_result_camera.xlsx',
+                  table_sample_info = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/sample_info.csv',
                   path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C',
                   file_output = 'peak_table_C12.csv')
+
+file.copy(from = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/00_raw_data_processing_12C/peak_table_C12.csv',
+          to = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/peak_table_C12.csv',
+          overwrite = TRUE)
 
 ```
 
@@ -150,12 +158,14 @@ The MS-DIAL exported feature table could be quickly modified using the IsoPairFi
 ```{r, eval=FALSE}
 
 library(IsoPairFinder)
-table_msdial <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/hyuA_UA_48h_area.txt'
-table_sample_info <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/sample_info.xlsx'
+
+# 12C
+table_msdial <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_msdial/hyuA_UA_48h_area.txt'
+table_sample_info <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_msdial/sample_info.csv'
 
 modify_msdial_table(table_msdial = table_msdial,
                     table_sample_info = table_sample_info,
-                    path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial',
+                    path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_msdial',
                     file_output = 'peak_table_C12.csv')
 
 ```
@@ -187,12 +197,15 @@ The exported feature table can be quickly modified using the IsoPairFinder funct
 ```{r, eval=FALSE}
 # Load required packages
 library(IsoPairFinder)
-table_mzmine <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine/mzmine_12C.csv'
-table_sample_info <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine/sample_info.xlsx'
+
+# 12C
+table_mzmine <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_mzmine/mzmine_12C.csv'
+table_sample_info <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_mzmine/sample_info.csv'
 modify_mzmine_table(table_mzmine = table_mzmine,
                     table_sample_info = table_sample_info,
-                    path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine',
+                    path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_mzmine',
                     file_output = 'peak_table_C12.csv')
+
 ``` 
 
 ### Step 4. Organizing files

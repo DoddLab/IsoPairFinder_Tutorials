@@ -265,7 +265,7 @@ div.csl-indent {
 <li>The first 4 columns should be “sample_id”, “group”, “tracer_group”, and “type”.</li>
 <li>The “sample_id” should be consistent with the sample names in the peak table. <strong>Note: The sample names should be same as the column names in the peak table and raw data files.</strong>
 </li>
-<li>The “group” is the sample group. It only supports 2 groups in the IsoPairFinder version.</li>
+<li>The “group” is the sample group. It only supports 2 groups in the IsoPairFinder version, “WT” and “MUTANT”.</li>
 <li>The “tracer_group” is the used tracers; it should be “12C” and “13C”.</li>
 <li>The “type” is the sample type, e.g., “sample”, “qc”, “blank”. Default: “sample”</li>
 </ul>
@@ -273,28 +273,28 @@ div.csl-indent {
 <li>
 <strong>raw data (unlabeled &amp; control group)</strong>: the folder contains raw data of the unlabeled WT.
 <ul>
-<li>The folder needed to be named as “group_tracer_group”, e.g., “WT_12C”.</li>
+<li>The folder needed to be named as “WT_12C”.</li>
 <li>It supports mzML/mzXML data format.</li>
 </ul>
 </li>
 <li>
 <strong>raw data (unlabeled &amp; case group)</strong>: the folder contains raw data of unlabeled mutation (mzML).
 <ul>
-<li>The folder needed to be named as “group_tracer_group”, e.g., “hyuA_12C”.</li>
+<li>The folder needed to be named as “MUTANT_12C”.</li>
 <li>It supports mzML/mzXML data format.</li>
 </ul>
 </li>
 <li>
 <strong>raw data (labeled &amp; control group)</strong>: the folder contains raw data of labeled WT (mzML).
 <ul>
-<li>The folder needed to be named as “group_tracer_group”, e.g., “WT_13C”.</li>
+<li>The folder needed to be named as “WT_13C”.</li>
 <li>It supports mzML/mzXML data format.</li>
 </ul>
 </li>
 <li>
 <strong>raw data (labeled &amp; case group)</strong>: the folder contains raw data of labeled mutation (mzML).
 <ul>
-<li>The folder needed to be named as “group_tracer_group”, e.g., “hyuA_13C”.</li>
+<li>The folder needed to be named as “MUTANT_13C”.</li>
 <li>It supports mzML/mzXML data format.</li>
 </ul>
 </li>
@@ -352,7 +352,7 @@ Table&nbsp;2.1: Summary of demo data, processed results, and tutorial
 </div>
 </figure>
 </div>
-<p><br><br></p>
+<p><font color="red"><strong>All Demo Code below is demonstrated for unlabeled group data processing (12C).</strong></font> For the labeled group data processing (13C), the code is similar, but the folder names and file paths need to be updated accordingly.</p>
 <section id="sec-xcms" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="sec-xcms">
 <span class="header-section-number">2.1</span> xcms</h2>
 <section id="sec-xcms-conversion" class="level3" data-number="2.1.1"><h3 data-number="2.1.1" class="anchored" data-anchor-id="sec-xcms-conversion">
@@ -371,9 +371,9 @@ Figure&nbsp;2.2: ProteoWizard conversion settings.
 <p>The R package <code>xcms</code> (version 3.20.0)<span class="citation" data-cites="smith_xcms_2006"><sup><a href="#ref-smith_xcms_2006" role="doc-biblioref">1</a></sup></span> for peak detection and alignment, and the R package <code>CAMERA</code> (version 1.54.0)<span class="citation" data-cites="kuhl_camera_2012"><sup><a href="#ref-kuhl_camera_2012" role="doc-biblioref">4</a></sup></span> were used for isotope annotation. <strong>Note: The unlabeled group data and the labeled group data were processed separately.</strong></p>
 <ul>
 <li>
-<strong>Unlabeled group data processing</strong>. The mzML files are placed in two folders named “WT” and “hyuA_12C” according to their groups. These data were further processed with the following script.</li>
+<strong>Unlabeled group data processing</strong>. The mzML files are placed in two folders named “WT” and “MUTANT_12C” according to their groups. These data were further processed with the following script.</li>
 <li>
-<strong>Labeled group data processing</strong>. The mzML files are placed in two folders named “WT” and “hyuA_12C” according to their groups. These data were further processed with the following script.</li>
+<strong>Labeled group data processing</strong>. The mzML files are placed in two folders named “WT” and “MUTANT_13C” according to their groups. These data were further processed with the following script.</li>
 </ul>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load required packages</span></span>
@@ -431,11 +431,17 @@ Figure&nbsp;2.2: ProteoWizard conversion settings.
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_xcms_table.html">modify_xcms_table</a></span><span class="op">(</span>table_xcms <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/Peak-table.csv'</span>,</span>
-<span>                  table_camera <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/adduct_result_camera.xlsx'</span>,</span>
-<span>                  table_sample_info <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/sample_info.xlsx'</span>,</span>
+<span></span>
+<span><span class="co"># 12C</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_xcms_table.html">modify_xcms_table</a></span><span class="op">(</span>table_xcms <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/Peak-table.csv'</span>,</span>
+<span>                  table_camera <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/00_raw_data_processing_12C/00_raw_data_processing/adduct_result_camera.xlsx'</span>,</span>
+<span>                  table_sample_info <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/sample_info.csv'</span>,</span>
 <span>                  path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_xcms/00_raw_data_processing_12C'</span>,</span>
-<span>                  file_output <span class="op">=</span> <span class="st">'peak_table_C12.csv'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>                  file_output <span class="op">=</span> <span class="st">'peak_table_C12.csv'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.copy</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/00_raw_data_processing_12C/peak_table_C12.csv'</span>,</span>
+<span>          to <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_xcms/peak_table_C12.csv'</span>,</span>
+<span>          overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-4.-organizing-files" class="level3" data-number="2.1.4"><h3 data-number="2.1.4" class="anchored" data-anchor-id="step-4.-organizing-files">
 <span class="header-section-number">2.1.4</span> Step 4. Organizing files</h3>
@@ -471,12 +477,14 @@ Figure&nbsp;2.4: MS-DIAL peak picking settings.
 <p>The MS-DIAL exported feature table could be quickly modified using the IsoPairFinder functions <code><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_msdial_table.html">modify_msdial_table()</a></code>. The sample_info table (<a href="#fig-figure2-1" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure2-1</span></a>) is needed to define the samples and groups.</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span>
-<span><span class="va">table_msdial</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/hyuA_UA_48h_area.txt'</span></span>
-<span><span class="va">table_sample_info</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial/sample_info.xlsx'</span></span>
+<span></span>
+<span><span class="co"># 12C</span></span>
+<span><span class="va">table_msdial</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_msdial/hyuA_UA_48h_area.txt'</span></span>
+<span><span class="va">table_sample_info</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_msdial/sample_info.csv'</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_msdial_table.html">modify_msdial_table</a></span><span class="op">(</span>table_msdial <span class="op">=</span> <span class="va">table_msdial</span>,</span>
 <span>                    table_sample_info <span class="op">=</span> <span class="va">table_sample_info</span>,</span>
-<span>                    path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_msdial'</span>,</span>
+<span>                    path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_msdial'</span>,</span>
 <span>                    file_output <span class="op">=</span> <span class="st">'peak_table_C12.csv'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-4.-organizing-files-1" class="level3" data-number="2.2.4"><h3 data-number="2.2.4" class="anchored" data-anchor-id="step-4.-organizing-files-1">
@@ -514,11 +522,13 @@ Figure&nbsp;2.6: MZmine feature table export settings.
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">IsoPairFinder</span><span class="op">)</span></span>
-<span><span class="va">table_mzmine</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine/mzmine_12C.csv'</span></span>
-<span><span class="va">table_sample_info</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine/sample_info.xlsx'</span></span>
+<span></span>
+<span><span class="co"># 12C</span></span>
+<span><span class="va">table_mzmine</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_mzmine/mzmine_12C.csv'</span></span>
+<span><span class="va">table_sample_info</span> <span class="op">&lt;-</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_mzmine/sample_info.csv'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/IsoPairFinder/man/modify_mzmine_table.html">modify_mzmine_table</a></span><span class="op">(</span>table_mzmine <span class="op">=</span> <span class="va">table_mzmine</span>,</span>
 <span>                    table_sample_info <span class="op">=</span> <span class="va">table_sample_info</span>,</span>
-<span>                    path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_mzmine'</span>,</span>
+<span>                    path <span class="op">=</span> <span class="st">'~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/20250817_test/Demo_data_mzmine'</span>,</span>
 <span>                    file_output <span class="op">=</span> <span class="st">'peak_table_C12.csv'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-4.-organizing-files-2" class="level3" data-number="2.3.4"><h3 data-number="2.3.4" class="anchored" data-anchor-id="step-4.-organizing-files-2">
