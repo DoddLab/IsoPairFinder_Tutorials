@@ -5,10 +5,10 @@ Understanding metabolic pathways in gut microbes is crucial for advancing microb
 
 The ways to access *IsoPairFinder* are listed below:
 
-| Access Method    | Type | Link |
-|------------------ |------------------|---------|
-| R Package        | Command line tools | [Link](https://github.com/DoddLab/IsoPairFinder) |
-| Web Server       | Graphic interface within GNPS2 ecosystem | [Link](https://gnps2.org/workflowinput?workflowname=isopairspec_nextflow_workflow) |
+| Access Method    | Type | Link | Document |
+|------------------ |------------------|---------|---------|
+| R Package        | Command line tools | [Link](https://github.com/DoddLab/IsoPairFinder) | [Documentation](https://doddlab.github.io/IsoPairFinder_Tutorials/) |
+| Web Server       | Graphic interface within GNPS2 ecosystem | [Link](https://gnps2.org/workflowinput?workflowname=isopairfinder_nextflow_workflow) | [Documentation](https://wang-bioinformatics-lab.github.io/GNPS2_Documentation/isopairfinder/) |
 
 <br>
 
