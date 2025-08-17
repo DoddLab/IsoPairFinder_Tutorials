@@ -221,7 +221,7 @@ div.csl-indent {
 
 </header><section id="overview-of-the-isopairfinder-workflow" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="overview-of-the-isopairfinder-workflow">
 <span class="header-section-number">3.1</span> Overview of the IsoPairFinder workflow</h2>
-<p>Generally, the <code>IsoPairFinder</code> processes the stable isotope tracing (STI) metabolomics data via 3 steps (<a href="#fig-figure3-1" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>): (1) differential analysis; (2) recognition of adduct, neutral loss, and in-source fragment; (3) feature pairing between unlabeled and labeled data.</p>
+<p>Generally, the <code>IsoPairFinder</code> processes the stable isotope tracing (STI) metabolomics data via 3 steps (<a href="#fig-figure3-1" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure3-1</span></a>): (1) differential analysis; (2) recognition of adduct, neutral loss, and in-source fragment; (3) feature pairing between unlabeled and labeled data.</p>
 <ol type="1">
 <li>
 <strong>Differential analysis</strong>: Identifying the possible accumulated substrates by comparing mutant and control groups. The unlabeled data and labeled data were processed respectively.</li>
@@ -263,9 +263,9 @@ Figure&nbsp;3.1: Overview of the IsoPairFinder workflow.
 <p>The <code>find_intemidates</code> function is the main function of the IsoPairFinder package, which runs the whole workflow to identify potential intermediates from stable isotope tracing metabolomics data.</p>
 <p>The parameters are provided below:</p>
 <ul>
-<li>peak_table_unlabel: the feature table name of the unlabeled group. The default file name, “peak_table_C12.csv”. See the requirements in <a href="data_preparation.html" class="quarto-xref"><span>Chapter 2</span></a>.</li>
-<li>peak_table_label: the feature table name of the unlabeled group. The default, “peak_table_C13.csv”. See the requirements in <a href="data_preparation.html" class="quarto-xref"><span>Chapter 2</span></a>.</li>
-<li>sample_info: the sample information table. See the requirements in <a href="data_preparation.html" class="quarto-xref"><span>Chapter 2</span></a>.</li>
+<li>peak_table_unlabel: the feature table name of the unlabeled group. The default file name, “peak_table_C12.csv”. See the requirements in <a href="#sec-data-preparation" class="quarto-xref"><span class="quarto-unresolved-ref">sec-data-preparation</span></a>.</li>
+<li>peak_table_label: the feature table name of the unlabeled group. The default, “peak_table_C13.csv”. See the requirements in <a href="#sec-data-preparation" class="quarto-xref"><span class="quarto-unresolved-ref">sec-data-preparation</span></a>.</li>
+<li>sample_info: the sample information table. See the requirements in <a href="#sec-data-preparation" class="quarto-xref"><span class="quarto-unresolved-ref">sec-data-preparation</span></a>.</li>
 <li>path: the working path.</li>
 <li>polarity: ionization polarity, “positive” or “negative”. Default: “positive”</li>
 <li>control_group: the control group, e.g., “WT”. The group names should be included in the sample information table.</li>
@@ -278,7 +278,7 @@ Figure&nbsp;3.1: Overview of the IsoPairFinder workflow.
 <li>is_recognize_adduct: whether to recognize and merge the isotopes, adducts, and in-source fragments. Default: TRUE</li>
 </ul></section><section id="sec-isoPairFinder-output" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="sec-isoPairFinder-output">
 <span class="header-section-number">3.3</span> Output</h2>
-<p>The new folder <code>“00_tracer_result”</code> will be generated in the working directory (<a href="quick_start.html#fig-figure1-2" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>), including “tracer_pair_result.xlsx” and several plots in PDF files. Specifically, these files are provided in the result folder:</p>
+<p>The new folder <code>“00_tracer_result”</code> will be generated in the working directory (<a href="#fig-figure1-2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure1-2</span></a>), including “tracer_pair_result.xlsx” and several plots in PDF files. Specifically, these files are provided in the result folder:</p>
 <ul>
 <li>
 <p><strong>tracer_pair_result.xlsx</strong>: This file contains the results from differential analysis, recognized features, and identified substrate feature pairs. It has 4 sheets:</p>
@@ -288,7 +288,7 @@ Figure&nbsp;3.1: Overview of the IsoPairFinder workflow.
 <li>
 <strong>raw_data_labeled</strong>: the differential analysis of the labeled group. Some columns below were added to the unlabeled feature table, including p-values, q-values, fold changes, etc.</li>
 <li>
-<strong>recognized_peak_unlabel</strong>: the table of recognized adducts, neutral loss, and in-source fragments (<a href="#fig-figure3-2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>). The method used here was followed from a previous publication<span class="citation" data-cites="zhou_metabolite_2022"><sup><a href="references.html#ref-zhou_metabolite_2022" role="doc-biblioref">1</a></sup></span>. Some key column definitions:
+<strong>recognized_peak_unlabel</strong>: the table of recognized adducts, neutral loss, and in-source fragments (<a href="#fig-figure3-2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure3-2</span></a>). The method used here was followed from a previous publication<span class="citation" data-cites="zhou_metabolite_2022"><sup><a href="#ref-zhou_metabolite_2022" role="doc-biblioref">1</a></sup></span>. Some key column definitions:
 <ul>
 <li>base_peak: the base peaks that are used to recognize the adducts and in-source fragments.</li>
 <li>relationship: the relationship with the base peak.</li>
@@ -297,7 +297,7 @@ Figure&nbsp;3.1: Overview of the IsoPairFinder workflow.
 </ul>
 </li>
 <li>
-<strong>paired_table</strong>: the table of possible substrate ion pairs identified. Each row represents one pair of substrate ions (<a href="#fig-figure3-2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>). Specifically,
+<strong>paired_table</strong>: the table of possible substrate ion pairs identified. Each row represents one pair of substrate ions (<a href="#fig-figure3-2" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-figure3-2</span></a>). Specifically,
 <ul>
 <li>unlabeled_feature_id/mz/rt: the property (id, mz, rt) of substrate in the unlabeled group.</li>
 <li>labled_feature_id/mz/rt: the property (id, mz, rt) of substrate in the labeled group</li>
@@ -322,7 +322,7 @@ Figure&nbsp;3.2: The screenshot of the tracer pair result table
 </div>
 
 
-<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-zhou_metabolite_2022" class="csl-entry" role="listitem">
 <div class="csl-left-margin">1. </div>
 <div class="csl-right-inline">Zhou, Z. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-022-34537-6">Metabolite annotation from knowns to unknowns through knowledge-guided multi-layer metabolic networking</a>. <em>Nature Communications</em> <strong>13</strong>, 6656 (2022).</div>
