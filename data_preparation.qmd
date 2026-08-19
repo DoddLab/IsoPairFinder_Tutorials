@@ -210,3 +210,101 @@ modify_mzmine_table(table_mzmine = table_mzmine,
 
 ### Step 4. Organizing files
 Please move the modified feature tables, the sample information table, the MS2 data files, and the raw data files to the designated location (@fig-figure2-1).
+
+
+<br><br>
+
+## TidyMass {#sec-tidymass}
+
+### Step 1: MS1 and MS2 data conversion {#sec-tidymass-conversion}
+The raw data for the demo could be downloaded [here](https://github.com/DoddLab/IsoPairFinder_DemoData_DiffTools/tree/main/00_raw_data). Convert raw MS1 data and MS2 data files to mzML format using ProteoWizard (version 3.0.23010, [Link](https://proteowizard.sourceforge.io/)). Please follow the conversion settings (@fig-figure2-2).
+
+![ProteoWizard conversion settings.](/images/figure2_2.png){width=75% .align-center #fig-figure2-2}
+
+### Step 2. Peak picking using XCMS and isotope merging
+The R package `TidyMass`, `massprocesser` (version 1.0.6) @shen_tidymass_2022 for peak detection and alignment, and the R package `CAMERA` (version 1.54.0) @kuhl_camera_2012 were used for isotope annotation. **Note: The unlabeled group data and the labeled group data were processed separately.**
+
+- **Unlabeled group data processing**. The mzML files are placed in two folders named “WT” and “MUTANT_12C” according to their groups. These data were further processed with the following script.
+- **Labeled group data processing**. The mzML files are placed in two folders named “WT” and “MUTANT_13C” according to their groups. These data were further processed with the following script.
+
+
+```{r, eval=FALSE}
+# Load required packages
+library(massprocesser)
+library(tidyverse)
+
+# set the working path
+setwd('~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/')
+
+
+# run raw data processing - 12C - unlabeled group
+massprocesser::process_data(
+  path = "00_raw_data_processing_12C",
+  polarity = "positive",
+  ppm = 20,
+  peakwidth = c(10, 44),
+  snthresh = 5,
+  noise = 500,
+  threads = 6,
+  output_tic = FALSE,
+  output_bpc = FALSE,
+  output_rt_correction_plot = TRUE,
+  min_fraction = 0.5,
+  fill_peaks = FALSE
+)
+
+
+# run CAMERA to annotate the isotopes
+library(DoddLabRawMS)
+# devtools::install_github('DoddLab/DoddLabRawMS', force = TRUE) # DoddLabRawMS is a package which utilized xcms to process the raw data
+
+library(CAMERA)
+load('~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/00_raw_data_processing_12C/Result/intermediate_data/xdata3')
+path <- '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/00_raw_data_processing_12C/'
+
+xset3 <- as(xdata3, "xcmsSet")
+
+runCAMERA(xset = xset3,
+          path = path,
+          polarity = 'positive',
+          nSlaves = 6,
+          pg_sigma = 6,
+          pg_perfwhm = 0.6,
+          iso_maxcharge = 2,
+          iso_maxiso = 4,
+          iso_ppm = 25,
+          iso_mzabs = 0.01,
+          iso_minfrac = 0.5,
+          is_vali_pg_cor = FALSE,
+          pg_cor_eic_th = 0.7,
+          pg_cor_calcIso = FALSE,
+          gp_cor_calcCis = TRUE,
+          gp_cor_calcCaS = FALSE,
+          gp_cor_cor_exp_th = 0.75,
+          is_use_modified_rule = TRUE,
+          adduct_ppm = 25,
+          adduct_mzabs = 0.01)
+```
+
+### Step 3. Feature table modification
+The tidymass exported feature table could be quickly modified using the IsoPairFinder functions `modify_tidymass_table()`. The sample_info table (@fig-figure2-1) is needed to define the samples and groups. 
+
+```{r, eval=FALSE}
+# Load required packages
+library(IsoPairFinder)
+
+# 12C
+modify_tidymass_table(table_tidymass = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/00_raw_data_processing_12C/Result/Peak_table_for_cleaning.csv',
+                      table_camera = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/00_raw_data_processing_12C/00_raw_data_processing/adduct_result_camera.xlsx',
+                      table_sample_info = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/sample_info.xlsx',
+                      path = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/00_raw_data_processing_12C',
+                      polarity = 'positive',
+                      file_output = 'peak_table_C12.csv')
+
+file.copy(from = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/00_raw_data_processing_12C/peak_table_C12.csv',
+          to = '~/Project/00_Uric_Acid_project/Data/20250606_isopairfind_test/Demo_data_tidymass/peak_table_C12.csv',
+          overwrite = TRUE)
+```
+
+### Step 4. Organizing files 
+Please move the modified feature tables, the sample information table, the MS2 data files, and the raw data files to the designated location (@fig-figure2-1).
