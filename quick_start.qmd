@@ -29,7 +29,7 @@ devtools::install_github("DoddLab/IsoPairFinder")
 ## Demo data
 The demo data belong to the uric acid catabolism pathway study @liu_widely_2023. Briefly, we cultured wild-type and mutant strains (hyuA mutant in the demo data) of C. sporogenes in the presence of either unlabeled uric acid or its [13C5]-labeled isotopolog (detailed study design can be found @sec-case-study). 
 
-The demo data can be downloaded [here](https://github.com/DoddLab/IsoPairFinder_demo_data). The downloaded data contains below files (@fig-figure1-1). Please refer to @sec-data-preparation for the detailed requirements of the data format for the step-by-step data preparation (xcms - @sec-xcms, msdial - @sec-msdial, mzmine - @sec-mzmine). 
+The demo data can be downloaded [here](https://github.com/DoddLab/IsoPairFinder_demo_data). The downloaded data contains below files (@fig-figure1-1). Please refer to @sec-data-preparation for the detailed requirements of the data format for the step-by-step data preparation (xcms - @sec-xcms, msdial - @sec-msdial, mzmine - @sec-mzmine, tidymass - @sec-tidymass). 
 
 ![The screenshot of the demo data.](/images/figure1_1.png){.align-center #fig-figure1-1}
 
